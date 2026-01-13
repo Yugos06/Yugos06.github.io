@@ -2,39 +2,83 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Mon premier site</title>
+  <title>Mon premier site + World of Warships</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f0f0f0;
       text-align: center;
-      padding: 50px;
+      padding: 0;
+      margin: 0;
     }
-    h1 {
-      color: #2c3e50;
+
+    /* Menu en haut */
+    .menu {
+      background-color: #2c3e50;
+      padding: 10px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    p {
-      font-size: 18px;
-      color: #34495e;
-    }
-    a {
-      color: #e74c3c;
+    .menu a {
+      color: #f0f0f0;
+      margin: 0 15px;
       text-decoration: none;
+      font-weight: bold;
     }
-    a:hover {
+    .menu a:hover {
       text-decoration: underline;
     }
+
+    .container, .wows-section {
+      padding: 30px;
+      margin: 20px auto;
+      border-radius: 10px;
+      max-width: 800px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
     .container {
       background-color: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      color: #34495e;
+    }
+
+    /* Section WoWS */
+    .wows-section {
+      background-color: #0b1a2b;
+      color: #f0f0f0;
+    }
+
+    .wows-section h2 {
+      color: #f39c12;
+    }
+
+    .wows-section a {
+      color: #3498db;
+    }
+
+    .wows-section ul {
+      list-style-type: square;
+      text-align: left;
       display: inline-block;
+      padding-left: 20px;
+    }
+
+    h1, h2, h3, p {
+      margin: 15px 0;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+
+  <!-- Menu de navigation -->
+  <div class="menu">
+    <a href="#ancien">Accueil</a>
+    <a href="#wows">World of Warships</a>
+  </div>
+
+  <!-- Ancien contenu -->
+  <div class="container" id="ancien">
     <h1>Bienvenue sur mon site</h1>
     <p>Je m'appelle Yugos et j'apprends le HTML grâce à GitHub Pages.</p>
 
@@ -47,5 +91,29 @@
       <a href="https://yugos06.github.io/">Mon site</a>
     </p>
   </div>
+
+  <!-- Section WoWS -->
+  <div class="wows-section" id="wows">
+    <h2>World of Warships</h2>
+    <p>Bienvenue sur mon site dédié à WoWS !</p>
+
+    <h3>Navires célèbres</h3>
+    <ul>
+      <li>Bismarck (Allemagne)</li>
+      <li>Yamato (Japon)</li>
+      <li>Hood (Royaume-Uni)</li>
+      <li>Iowa (USA)</li>
+    </ul>
+
+    <h3>Conseils de jeu</h3>
+    <p>Apprends les classes de navires, utilise le brouillard et l'angle pour tes tirs, et choisis bien ta ligne de tir !</p>
+
+    <h3>Liens utiles</h3>
+    <p>
+      <a href="https://worldofwarships.com/">Site officiel WoWS</a> |
+      <a href="https://wiki.wargaming.net/en/World_of_Warships">Wiki WoWS</a>
+    </p>
+  </div>
+
 </body>
 </html>
