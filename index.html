@@ -2,79 +2,157 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Mon premier site + World of Warships</title>
+  <title>Mon site WoWS pro</title>
   <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      text-align: center;
-      padding: 0;
-      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(#0b1a2b, #142b44);
+      color: #f0f0f0;
+      line-height: 1.6;
     }
 
-    /* Menu en haut */
+    /* Menu sticky */
     .menu {
-      background-color: #2c3e50;
-      padding: 10px 0;
+      background-color: rgba(27, 40, 56, 0.95);
+      display: flex;
+      justify-content: center;
+      padding: 15px 0;
       position: sticky;
       top: 0;
       z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
     .menu a {
       color: #f0f0f0;
-      margin: 0 15px;
-      text-decoration: none;
+      margin: 0 20px;
       font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: 0.3s;
     }
     .menu a:hover {
-      text-decoration: underline;
-    }
-
-    .container, .wows-section {
-      padding: 30px;
-      margin: 20px auto;
-      border-radius: 10px;
-      max-width: 800px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    .container {
-      background-color: #fff;
-      color: #34495e;
-    }
-
-    /* Section WoWS */
-    .wows-section {
-      background-color: #0b1a2b;
-      color: #f0f0f0;
-    }
-
-    .wows-section h2 {
       color: #f39c12;
+      text-shadow: 0 0 8px #f39c12;
     }
 
-    .wows-section a {
-      color: #3498db;
+    /* Conteneurs */
+    .container, .wows-section, .ships-section {
+      padding: 40px 20px;
+      margin: 30px auto;
+      border-radius: 12px;
+      max-width: 1000px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+      transition: transform 0.3s;
+      background: rgba(27,40,56,0.85);
+      backdrop-filter: blur(5px);
+    }
+    .container:hover, .wows-section:hover, .ships-section:hover { transform: translateY(-5px); }
+
+    /* Titres */
+    h1, h2, h3 { text-shadow: 1px 1px 6px rgba(0,0,0,0.7); margin-bottom: 15px; }
+    h1, h2 { color: #f39c12; }
+    h3 { color: #e1e1e1; }
+
+    /* Paragraphes et liens */
+    p { color: #e1e1e1; margin-bottom: 15px; }
+    a { color: #3498db; transition: 0.3s; }
+    a:hover { color: #f39c12; text-shadow: 0 0 5px #f39c12; }
+
+    /* Section WoWS / Navires */
+    .wows-section ul, .ships-section ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
     }
 
-    .wows-section ul {
-      list-style-type: square;
+    .wows-section ul li, .ships-section ul li {
+      background-color: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 15px;
+      width: 220px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.7);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+    }
+
+    .wows-section ul li:hover, .ships-section ul li:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.9);
+    }
+
+    .wows-section ul li img, .ships-section ul li img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      transition: transform 0.3s;
+    }
+    .wows-section ul li img:hover, .ships-section ul li img:hover { transform: scale(1.05); }
+
+    /* Section conseils */
+    .tips {
+      background-color: rgba(243, 156, 18, 0.1);
+      color: #f39c12;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
       text-align: left;
-      display: inline-block;
-      padding-left: 20px;
     }
 
-    h1, h2, h3, p {
-      margin: 15px 0;
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #f0f0f0;
+      background-color: #1b2838;
+      margin-top: 40px;
+    }
+
+    /* Background vague animé pour la section navires */
+    .ships-section {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(#0b1a2b, #142b44);
+    }
+
+    .wave {
+      position: absolute;
+      width: 200%;
+      height: 100%;
+      background: url('https://i.ibb.co/N6R2N8Q/wave.png') repeat-x;
+      top: 0;
+      left: -100%;
+      animation: waveMove 15s linear infinite;
+      opacity: 0.2;
+      z-index: 0;
+    }
+
+    @keyframes waveMove {
+      from { left: -100%; }
+      to { left: 0%; }
+    }
+
+    /* Contenu au-dessus du wave */
+    .ships-section ul { position: relative; z-index: 1; }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .wows-section ul li, .ships-section ul li { width: 90%; }
+      .menu { flex-direction: column; }
+      .menu a { margin: 10px 0; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Menu de navigation -->
+  <!-- Menu -->
   <div class="menu">
     <a href="#ancien">Accueil</a>
     <a href="#wows">World of Warships</a>
+    <a href="#ships">Navires</a>
   </div>
 
   <!-- Ancien contenu -->
@@ -97,16 +175,15 @@
     <h2>World of Warships</h2>
     <p>Bienvenue sur mon site dédié à WoWS !</p>
 
-    <h3>Navires célèbres</h3>
-    <ul>
-      <li>Bismarck (Allemagne)</li>
-      <li>Yamato (Japon)</li>
-      <li>Hood (Royaume-Uni)</li>
-      <li>Iowa (USA)</li>
-    </ul>
-
     <h3>Conseils de jeu</h3>
-    <p>Apprends les classes de navires, utilise le brouillard et l'angle pour tes tirs, et choisis bien ta ligne de tir !</p>
+    <div class="tips">
+      <ul>
+        <li>Apprends les classes de navires.</li>
+        <li>Utilise le brouillard et l’angle pour tes tirs.</li>
+        <li>Choisis bien ta ligne de tir.</li>
+        <li>Garde toujours un œil sur la mini-carte.</li>
+      </ul>
+    </div>
 
     <h3>Liens utiles</h3>
     <p>
@@ -115,5 +192,39 @@
     </p>
   </div>
 
+  <!-- Section Navires -->
+  <div class="ships-section" id="ships">
+    <div class="wave"></div>
+    <h2>Navires célèbres</h2>
+    <ul>
+      <li>
+        <img src="bismarck.jpg" alt="Bismarck">
+        <strong>Bismarck</strong><br>
+        Cuirassé allemand célèbre pour sa puissance et sa vitesse.
+      </li>
+      <li>
+        <img src="yamato.jpg" alt="Yamato">
+        <strong>Yamato</strong><br>
+        Cuirassé japonais gigantesque avec une artillerie redoutable.
+      </li>
+      <li>
+        <img src="hood.jpg" alt="Hood">
+        <strong>Hood</strong><br>
+        Croiseur britannique rapide et élégant, symbole de la Royal Navy.
+      </li>
+      <li>
+        <img src="iowa.jpg" alt="Iowa">
+        <strong>Iowa</strong><br>
+        Cuirassé américain polyvalent, connu pour sa puissance de feu.
+      </li>
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2026 Yugos | <a href="https://github.com/Yugos06">Mon GitHub</a>
+  </footer>
+
 </body>
 </html>
+
