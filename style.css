@@ -125,7 +125,7 @@ a:hover {
 
 .ships-section {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   background: linear-gradient(#0b1a2b, #142b44);
 }
 
