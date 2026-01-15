@@ -138,8 +138,8 @@ a:hover {
   width: 200%;
   height: 120px;
   background: url("https://i.ibb.co/N6R2N8Q/wave.png") repeat-x;
-  animation: waveMove 15s linear infinite;
-  opacity: 0.25;
+  animation:  waveMove 20s linear infinite;
+  opacity: 0.3;
   z-index: 0;
 }
 
@@ -178,13 +178,15 @@ footer {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  font-size: 0.95rem;
-  margin-top: 10px;
-  color: #ddd;
-  transition: max-height 0.4s ease, opacity 0.4s ease;
+  transition: max-height 0.5s ease, opacity 0.5s ease, padding 0.5s ease;
+  padding: 0 10px;
 }
 
 .ship-card.active .ship-desc {
-  max-height: 200px;
+  max-height: 300px; 
   opacity: 1;
+  padding: 10px;
+
+ship-card:hover {
+  border: 1px solid #f39c12;
 }
