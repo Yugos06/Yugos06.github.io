@@ -206,5 +206,9 @@ ship-card:hover {
   .ship-card {
     width: 95%;
   }
+
+h1:hover, h2:hover, a:hover {
+  text-shadow: 0 0 8px rgba(243, 156, 18, 0.7);
 }
+
 
