@@ -121,8 +121,15 @@ a:hover {
   margin-top: 20px;
 }
 
-.tips ul {
+.tips ul li {
   padding-left: 20px;
+  .tips ul li {
+  background-color: rgba(243, 156, 18, 0.2);
+  padding: 12px;
+  margin: 8px 0;
+  border-left: 4px solid #f39c12;
+}
+
 }
 
 .ships-section {
