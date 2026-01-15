@@ -1,11 +1,12 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   background: linear-gradient(#0b1a2b, #142b44);
   color: #f0f0f0;
   line-height: 1.6;
 }
+
 
 .menu {
   background-color: rgba(27, 40, 56, 0.95);
