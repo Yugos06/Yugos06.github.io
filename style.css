@@ -174,4 +174,17 @@ footer {
   .menu a {
     margin: 10px 0;
   }
+.ship-desc {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-size: 0.95rem;
+  margin-top: 10px;
+  color: #ddd;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+}
+
+.ship-card.active .ship-desc {
+  max-height: 200px;
+  opacity: 1;
 }
