@@ -51,17 +51,18 @@ body {
 }
 
 h1, h2, h3 {
-  text-shadow: 1px 1px 6px rgba(0,0,0,0.7);
-  margin-bottom: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
+
 
 h1, h2 { color: #f39c12; }
 h3 { color: #e1e1e1; }
 
 p {
-  color: #e1e1e1;
-  margin-bottom: 15px;
+  font-size: 1.05rem;
 }
+
 
 a {
   color: #3498db;
