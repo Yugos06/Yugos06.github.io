@@ -1,128 +1,70 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
-  <title>Mon site WoWS pro</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css">
-  <script src="script.js"></script>
+  <meta name="description" content="Site fan de World of Warships présentant les navires les plus célèbres du jeu">
+  <title>World of Warships - Yugos</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div class="menu">
-    <a href="#ancien">Accueil</a>
-    <a href="#wows">World of Warships</a>
-    <a href="#ships">Navires</a>
-  </div>
-
-  <div class="container" id="ancien">
-    <h1>Bienvenue sur mon site</h1>
-    <p>Je m'appelle Yugos et j'apprends le HTML grâce à GitHub Pages.</p>
-
-    <h2>À propos de moi</h2>
-    <p>Je suis en 3e et j'apprends le développement web.</p>
-
-    <h2>Mes liens</h2>
-    <p>
-      <a href="https://github.com/Yugos06">Mon GitHub</a> |
-      <a href="https://yugos06.github.io/">Mon site</a>
-    </p>
-  </div>
-
-  <div class="wows-section" id="wows">
-    <h2>World of Warships</h2>
-    <p>Bienvenue sur mon site dédié à WoWS !</p>
-
-    <h3>Conseils de jeu</h3>
-    <div class="tips">
-      <ul>
-        <li>Apprends les classes de navires.</li>
-        <li>Utilise le brouillard et l’angle pour tes tirs.</li>
-        <li>Choisis bien ta ligne de tir.</li>
-        <li>Garde toujours un œil sur la mini-carte.</li>
+  <header>
+    <h1>⚓ World of Warships</h1>
+    <nav aria-label="Navigation principale">
+      <ul class="menu">
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#navires">Navires célèbres</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
-    </div>
+    </nav>
+  </header>
 
-    <h3>Liens utiles</h3>
-    <p>
-      <a href="https://worldofwarships.com/">Site officiel WoWS</a> |
-      <a href="https://wiki.wargaming.net/en/World_of_Warships">Wiki WoWS</a>
-    </p>
-  </div>
+  <main>
+    <section id="accueil" class="hero-section">
+      <h2>Bienvenue Commandant !</h2>
+      <p>Explore les navires les plus puissants de World of Warships.</p>
+    </section>
 
-  <div class="ships-section" id="ships">
-    <div class="wave"></div>
-    <h2>Navires célèbres</h2>
+    <section id="navires" class="ships-section">
+      <h2>Navires Célèbres</h2>
+      <ul class="cards-container" aria-label="Liste des navires célèbres">
+        <li class="ship-card" id="richelieu" tabindex="0">
+          <img src="images/richelieu.jpg" alt="Cuirassé Richelieu - Navire français" loading="lazy">
+          <h3>Richelieu</h3>
+          <p class="ship-desc">Cuirassé français rapide et puissant, réputé pour son artillerie exceptionnelle.</p>
+        </li>
 
-    <ul class="ships">
-   <li class="ship-card" onclick="toggleDesc(this)">
-  <img src="images/bismarck.png" alt="Bismarck">
-  <h3>Bismarck</h3>
-  <p class="ship-desc">
-    Cuirassé allemand célèbre pour sa puissance de feu et sa courte carrière durant la Seconde Guerre mondiale.
-  </p>
-</li>
+        <li class="ship-card" id="vladivostok" tabindex="0">
+          <img src="images/vladivostok.jpg" alt="Cuirassé Vladivostok - Navire soviétique" loading="lazy">
+          <h3>Vladivostok</h3>
+          <p class="ship-desc">L'un des navires soviétiques emblématiques, robuste et redoutable au combat.</p>
+        </li>
 
+        <li class="ship-card" id="prinz-eugen" tabindex="0">
+          <img src="images/prinz-eugen.jpg" alt="Croiseur Prinz Eugen - Navire allemand" loading="lazy">
+          <h3>Prinz Eugen</h3>
+          <p class="ship-desc">Croiseur lourd allemand avec une excellente maniabilité et puissance de feu.</p>
+        </li>
+      </ul>
+    </section>
 
-    <li class="ship-card" onclick="toggleDesc(this)">
-  <img src="images/yamato.png" alt="yamato">
-  <h3>yamato</h3>
-  <p class="ship-desc">
-    Le plus grand navire jamais construit par l'hummanité Il pouvais pulveriser n'importe quelle adversaire
-  </p>
-</li>
-
-
-    <li class="ship-card" onclick="toggleDesc(this)">
-  <img src="images/hood.png" alt="Hood">
-  <h3>Hood</h3>
-  <p class="ship-desc">
-    "the pride and joy of the Royal Navy, ils disaient... pulveriser en une seule salve du Bismarck
-  </p>
-</li>
-
-
-   <li class="ship-card" onclick="toggleDesc(this)">
-  <img src="images/iowa.png" alt="Iowa">
-  <h3>Iowa</h3>
-  <p class="ship-desc">
-   un des navires nouvelle génération construit par la marine américaine, devlopper pour escorter les porte-avions.
-  </p>
-</li>
-
-   
-   <li class="ship-card" onclick="toggleDesc(this)">
-  <img src="images/richelieu.png" alt="Richelieu">
-  <h3>Richelieu</h3>
-  <p class="ship-desc">
-    Cuirassé français rapide, équipé de deux tourelles quadruples à l’avant, très puissant en combat frontal.
-  </p>
-</li>
-
-
-   <li class="ship-card" onclick="toggleDesc(this)">
-  <img src="images/prinz_eugen.png" alt="Prinz Eugen">
-  <h3>Prinz Eugen</h3>
-  <p class="ship-desc">
-    Croiseur lourd allemand robuste, célèbre pour sa survivabilité et sa participation à l’opération Rheinübung.
-  </p>
-</li>
-
-
-   <li class="ship-card" onclick="toggleDesc(this)">
-  <img src="images/vladivostok.png" alt="Vladivostok">
-  <h3>Vladivostok</h3>
-  <p class="ship-desc">
-    Cuirassé soviétique très résistant à moyenne portée, conçu pour encaisser et dominer les combats rapprochés.
-  </p>
-</li>
-
-  </ul>
-</div>
+    <section id="contact" class="contact-section">
+      <h2>Contact & Informations</h2>
+      <p>Site développé par <strong>Yugos</strong> — fan passionné de World of Warships.</p>
+      <div class="contact-links">
+        <a href="https://github.com/Yugos06" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Yugos">GitHub</a>
+        <a href="mailto:contact@example.com" aria-label="Envoyer un email">Email</a>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    &copy; 2026 Yugos | <a href="https://github.com/Yugos06">Mon GitHub</a>
+    <p>&copy; 2026 Yugos – Tous droits réservés</p>
   </footer>
 
+  <script src="script.js" defer></script>
 </body>
+
 </html>
