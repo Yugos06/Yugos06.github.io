@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <title>Mon site WoWS pro</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
+  <script src="script.js"></script>
 </head>
 <body>
-
   <div class="menu">
     <a href="#ancien">Accueil</a>
     <a href="#wows">World of Warships</a>
@@ -52,29 +53,72 @@
   <div class="ships-section" id="ships">
     <div class="wave"></div>
     <h2>Navires célèbres</h2>
-    <ul>
-      <li>
-        <img src="images/bismarck.png" alt="Bismarck">
-        <strong>Bismarck</strong><br>
-        Cuirassé allemand célèbre pour sa puissance et sa vitesse.
-      </li>
-      <li>
-        <img src="images/yamato.png" alt="Yamato">
-        <strong>Yamato</strong><br>
-        Cuirassé japonais gigantesque avec une artillerie redoutable.
-      </li>
-      <li>
-        <img src="images/hood.png" alt="Hood">
-        <strong>Hood</strong><br>
-        Croiseur britannique rapide et élégant, symbole de la Royal Navy.
-      </li>
-      <li>
-        <img src="images/iowa.png" alt="Iowa">
-        <strong>Iowa</strong><br>
-        Cuirassé américain polyvalent, connu pour sa puissance de feu.
-      </li>
-    </ul>
-  </div>
+
+    <ul class="ships">
+   <li class="ship-card" onclick="toggleDesc(this)">
+  <img src="images/bismarck.png" alt="Bismarck">
+  <h3>Bismarck</h3>
+  <p class="ship-desc">
+    Cuirassé allemand célèbre pour sa puissance de feu et sa courte carrière durant la Seconde Guerre mondiale.
+  </p>
+</li>
+
+
+    <li class="ship-card" onclick="toggleDesc(this)">
+  <img src="images/yamato.png" alt="yamato">
+  <h3>yamato</h3>
+  <p class="ship-desc">
+    Le plus grand navire jamais construit par l'hummanité Il pouvais pulveriser n'importe quelle adversaire
+  </p>
+</li>
+
+
+    <li class="ship-card" onclick="toggleDesc(this)">
+  <img src="images/hood.png" alt="Hood">
+  <h3>Hood</h3>
+  <p class="ship-desc">
+    "the pride and joy of the Royal Navy, ils disaient... pulveriser en une seule salve du Bismarck
+  </p>
+</li>
+
+
+   <li class="ship-card" onclick="toggleDesc(this)">
+  <img src="images/iowa.png" alt="Iowa">
+  <h3>Iowa</h3>
+  <p class="ship-desc">
+   un des navires nouvelle génération construit par la marine américaine, devlopper pour escorter les porte-avions.
+  </p>
+</li>
+
+   
+   <li class="ship-card" onclick="toggleDesc(this)">
+  <img src="images/richelieu.png" alt="Richelieu">
+  <h3>Richelieu</h3>
+  <p class="ship-desc">
+    Cuirassé français rapide, équipé de deux tourelles quadruples à l’avant, très puissant en combat frontal.
+  </p>
+</li>
+
+
+   <li class="ship-card" onclick="toggleDesc(this)">
+  <img src="images/prinz_eugen.png" alt="Prinz Eugen">
+  <h3>Prinz Eugen</h3>
+  <p class="ship-desc">
+    Croiseur lourd allemand robuste, célèbre pour sa survivabilité et sa participation à l’opération Rheinübung.
+  </p>
+</li>
+
+
+   <li class="ship-card" onclick="toggleDesc(this)">
+  <img src="images/vladivostok.png" alt="Vladivostok">
+  <h3>Vladivostok</h3>
+  <p class="ship-desc">
+    Cuirassé soviétique très résistant à moyenne portée, conçu pour encaisser et dominer les combats rapprochés.
+  </p>
+</li>
+
+  </ul>
+</div>
 
   <footer>
     &copy; 2026 Yugos | <a href="https://github.com/Yugos06">Mon GitHub</a>
