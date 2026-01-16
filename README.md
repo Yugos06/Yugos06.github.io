@@ -1,103 +1,309 @@
-# ⚓ World of Warships Fan Site
+# World of Warships Fan Site
 
 Site fan moderne, accessible et complet dédié à **World of Warships**, hébergé sur **GitHub Pages**.
 
-**🌐 [Visiter le Site](https://yugos06.github.io/)**
+[Visiter le Site](https://yugos06.github.io/)
 
 ---
 
-## ✨ Fonctionnalités
+## Fonctionnalités Principales
 
-✅ **Mode Sombre/Clair** - Toggle automatique avec sauvegarde  
-✅ **Recherche & Filtres** - Temps réel par nation (FR, DE, RU, USA, JP, UK)  
-✅ **Galerie Interactive** - Carrousel modal avec navigation  
-✅ **Statistiques** - Graphiques comparatifs (Puissance, Armure, Vitesse)  
-✅ **Blog** - Guides World of Warships intégrés  
-✅ **PWA** - Fonctionne hors-ligne, installable  
-✅ **Accessible** - WCAG AA, navigation clavier, lecteur d'écran  
-✅ **Responsive** - Mobile, tablette, desktop  
+1. **Mode Sombre/Clair** - Thème sauvegardé automatiquement
+2. **Recherche & Filtres** - Recherche temps réel + filtrage par nation (France, Allemagne, URSS, USA, Japon, UK)
+3. **Galerie Interactive** - Carrousel modal avec navigation clavier
+4. **Statistiques** - Graphiques comparatifs (Puissance, Armure, Vitesse)
+5. **Blog** - Guides World of Warships intégrés
+6. **PWA** - Fonctionne hors-ligne, installable sur mobile/desktop
+7. **Accessibilité** - WCAG AA, navigation clavier complète, support lecteur d'écran
+8. **Responsive** - Mobile, tablette, desktop optimisés
 
 ---
 
-## 📁 Structure du Projet
+## Structure du Projet
 
 ```
 .
-├── index.html                 # HTML5 avec structure sémantique
-├── style.css                  # CSS moderne (variables, grid, flex)
-├── script.js                  # Vanilla JS ES6+ (0 dépendances)
-├── manifest.json              # Configuration PWA
-├── service-worker.js          # Cache offline
-├── service-worker-register.js # Enregistrement PWA
-├── images/                    # Assets (7 navires + wave)
-├── GUIDE_COMPLET.md          # Guide utilisateur détaillé
-├── IMPLEMENTATION.md         # Architecture technique
-├── CHANGELOG.md              # Historique des versions
-└── LICENSE                   # MIT License
+├── index.html                  # Structure HTML5 sémantique
+├── style.css                   # CSS moderne (variables, grid, flexbox)
+├── script.js                   # Vanilla JavaScript ES6+ (0 dépendances)
+├── manifest.json               # Configuration PWA
+├── service-worker.js           # Cache offline strategy
+├── service-worker-register.js  # Enregistrement du service worker
+├── images/                     # Assets (7 navires + wave.png)
+├── LICENSE                     # MIT License
+└── README.md                   # Cette documentation
 ```
 
 ---
 
-## 🚀 Installation & Développement
-- Mobile-first (320px+)
-- Tablette optimisée (768px)
-- Desktop premium (1200px+)
-- Smooth animations
+## Technologies
+
+| Technologie | Usage |
+|---|---|
+| **HTML5** | Structure sémantique |
+| **CSS3** | Design responsive + animations |
+| **JavaScript ES6+** | Logique (vanilla, zéro dépendances) |
+| **Service Worker API** | Cache + offline support |
+| **localStorage API** | Persistance des préférences |
+| **Intersection Observer** | Animations au scroll |
+| **GitHub Pages** | Hébergement statique gratuit |
 
 ---
 
-## 📁 Structure du Projet
+## Guide Utilisateur
 
+### Mode Sombre/Clair
+
+**Localisation**: Bouton en haut à droite du header
+
+- Cliquez sur le bouton pour basculer entre modes sombre et clair
+- Votre préférence est sauvegardée automatiquement
+- Le thème choisi réapparaît au prochain chargement
+- Économise de l'énergie sur écrans OLED
+
+### Recherche & Filtres
+
+**Localisation**: Barre de recherche sous le header
+
+**Recherche**:
+- Tapez le nom d'un navire (ex: "Bismarck")
+- Les résultats s'affichent instantanément
+- Recherche insensible à la casse
+- Recherche partielle: "ric" trouve "Richelieu"
+
+**Filtres par pays**:
+- 6 boutons pour les nations (France, Allemagne, URSS, USA, Japon, UK)
+- Bouton "Tous" pour réinitialiser
+- Combinaison possible avec la recherche
+- Le bouton actif devient orange
+
+### Cartes de Navires
+
+Chaque carte affiche:
+- Image du navire
+- Notation (étoiles)
+- Description courte
+- Bouton pour ouvrir la galerie
+
+**Cliquez sur la carte** pour développer et voir les statistiques détaillées.
+
+### Galerie & Carrousel
+
+**Navigation**:
+1. Cliquez sur "Galerie" dans une carte de navire
+2. Une fenêtre modale s'ouvre avec l'image agrandie
+3. Naviguez avec les flèches (← →)
+4. Appuyez sur Escape ou cliquez dehors pour fermer
+
+**Clavier**:
+- Flèche gauche: Image précédente
+- Flèche droite: Image suivante
+- Escape: Fermer la galerie
+- Tab: Accéder aux boutons (accessibilité)
+
+### Statistiques & Comparaison
+
+**Section**: "Comparateur de Navires"
+
+Trois graphiques en barres affichent pour tous les navires:
+- **Puissance**: Dégâts/Damage du navire
+- **Armure**: Défense/Santé
+- **Vitesse**: Mobilité/Déplacement
+
+Les barres en gradient orange montrent la comparaison relative de chaque navire.
+
+### Blog
+
+La section Blog propose 4 guides World of Warships avec contenu éducatif sur le jeu.
+
+### Installation PWA
+
+**Sur mobile ou desktop**:
+1. Visitez le site
+2. Cliquez sur "Installer" (message du navigateur)
+3. L'application s'installe sur votre écran d'accueil
+4. Fonctionne hors-ligne avec les assets en cache
+
+---
+
+## Architecture Technique
+
+### Mode Sombre/Clair
+
+**Fichier**: `script.js` (fonction `initializeDarkMode()`)
+
+- Toggle button avec 🌙 / ☀️ dans le header
+- Sauvegarde en `localStorage` sous la clé "theme"
+- Variables CSS pour theming dynamique
+- Support de `data-theme="light"` sur l'élément HTML
+
+### Recherche & Filtres
+
+**Fichier**: `script.js` (fonctions `initializeSearch()` et `filterCards()`)
+
+- Input text avec event listener en temps réel
+- 7 boutons de filtrage avec data attributes
+- Les cartes utilisent `data-country` et `data-type`
+- Combinaison intelligente search + filter avec regex
+
+### Galerie & Carrousel Modal
+
+**Fichier**: `script.js` (fonctions `initializeGalleryModal()`, `openGallery()`)
+
+- Modal fullscreen avec image agrandie
+- Navigation carrousel (← →)
+- Support clavier: Arrow Left/Right (navigation), Escape (fermeture)
+- Fermeture au clic sur overlay
+- 3 images par navire en démo
+
+### Statistiques & Visualisation
+
+**Fichier**: `script.js` (fonctions `initializeStats()` et `displayChart()`)
+
+- 3 sections: Puissance, Armure, Vitesse
+- Graphiques en barres avec gradient orange
+- Extraction automatique des stats depuis les cartes HTML
+- Affichage comparatif entre tous les navires
+- Animations de remplissage avec Intersection Observer
+
+### Notation Étoile
+
+**Fichier**: `index.html` (classe `.rating` dans chaque carte)
+
+- Notation ★★★★★ pour chaque navire
+- Adaptation à la puissance du navire représentée
+
+### Section Blog
+
+**Fichier**: `index.html` (section `#blog`)
+
+- 4 articles prédéfinis avec design moderne
+- Hovers animés avec translateY
+- Structure prête pour ajouter des liens vers articles détaillés
+
+### PWA (Progressive Web App)
+
+**Fichiers**:
+- `manifest.json`: Métadonnées d'installation (nom, icône, couleurs)
+- `service-worker.js`: Stratégie de cache (network-first)
+- `service-worker-register.js`: Script d'enregistrement
+
+**Caractéristiques**:
+- Installable sur mobile et desktop
+- Fonctionne hors-ligne
+- Cache des assets principaux (HTML, CSS, JS, images)
+- Support mode standalone
+
+### Animations & Transitions
+
+**Fichier**: `style.css` + `script.js`
+
+- Fade-in au scroll avec Intersection Observer
+- Animations sur les cartes au hover (translateY -5px)
+- Transitions fluides (CSS transitions)
+- Animations de remplissage des barres de statistiques
+
+### Accessibilité
+
+**Implémentations**:
+- Aria-labels sur tous les boutons interactifs
+- Navigation complète au clavier (Tab, Enter, Space)
+- Focus states visibles et clairs
+- Sémantique HTML5 appropriée (header, nav, main, section, article, button)
+- Contraste de couleurs WCAG AA
+- Support des lecteurs d'écran (NVDA, JAWS, VoiceOver)
+
+### Design Responsive
+
+**Fichier**: `style.css` (media queries)
+
+**Breakpoints**:
+- Desktop: 1200px+ (3 colonnes de navires)
+- Tablette: 768px-1199px (2 colonnes)
+- Mobile: 320px-767px (1 colonne)
+
+**Adaptations**:
+- Polices fluides et lisibles
+- Flexbox/Grid responsive pour les layouts
+- Boutons et modales optimisés pour tactile
+- Navigation accessible sur petits écrans
+
+---
+
+## Navires Présentés (7 Bâtiments)
+
+1. **Bismarck** (Allemagne)
+2. **Hood** (Royaume-Uni)
+3. **Iowa** (États-Unis)
+4. **Prinz Eugen** (Allemagne)
+5. **Richelieu** (France)
+6. **Vladivostok** (URSS)
+7. **Yamato** (Japon)
+
+---
+
+## Installation & Développement
+
+### Cloner le repositoire
+
+```bash
+git clone https://github.com/Yugos06/Yugos06.github.io.git
+cd Yugos06.github.io
 ```
-/workspaces/Yugos06.github.io/
-├── index.html                    # Structure HTML (251 lignes)
-├── style.css                     # Design & animations (500+ lignes)
-├── script.js                     # Logique & interactivité (350+ lignes)
-├── manifest.json                 # Configuration PWA
-├── service-worker.js             # Cache offline
-├── service-worker-register.js    # Registration script
-│
-├── images/                       # Assets visuels
-│   ├── bismarck.png
-│   ├── hood.png
-│   ├── iowa.png
-│   ├── prinz_eugen.png
-│   ├── richelieu.png
-│   ├── vladivostok.png
-│   ├── yamato.png
-│   └── wave.png
-│
-└── Documentation/
-    ├── README.md                 # Ce fichier
-    ├── GUIDE_COMPLET.md          # Guide utilisateur détaillé
-    ├── IMPLEMENTATION.md         # Détails techniques
-    ├── CHANGES.md                # Historique des changements
-    ├── COMPLETION.md             # Checklists de fonctionnalités
-    ├── STATUS.md                 # État du projet
-    └── GUIDE.md                  # Guide développeur
+
+### Serveur local (optionnel)
+
+```bash
+# Python 3
+python -m http.server 8000
+
+# Node.js
+npx http-server
 ```
 
----
+Puis visitez `http://localhost:8000`
 
-## 🎨 Technologies Utilisées
+### Structure du code
 
-| Technologie | Utilisation | Version |
-|---|---|---|
-| **HTML5** | Structure sémantique | Standard |
-| **CSS3** | Design responsive, animations | Modern |
-| **JavaScript (ES6+)** | Interactivité, logique | Vanilla (no deps) |
-| **Service Worker** | Cache, offline support | API moderne |
-| **localStorage API** | Persistance préférences | Browser API |
-| **Intersection Observer** | Animations au scroll | Browser API |
-| **GitHub Pages** | Hébergement | Static hosting |
+- **HTML**: 251 lignes - Structure sémantique complète
+- **CSS**: 500+ lignes - Design moderne, variables de couleur, responsive
+- **JavaScript**: 350+ lignes - 8 fonctionnalités principales
+
+### Dépendances
+
+Aucune. Le projet utilise uniquement le vanilla JavaScript et les APIs natives du navigateur.
 
 ---
 
-## 📊 Contenu du Site
+## Historique des Versions
 
-### Navires Présentés (7)
-1. **Bismarck** 🇩🇪 (Allemagne)
-2. **Hood** 🇬🇧 (UK)
+### v2.0 (Current)
+- 8 fonctionnalités principales
+- PWA complète avec service worker
+- Accessibilité WCAG AA
+- Design responsive
+- 7 navires avec galeries
+
+### v1.5
+- 5 fonctionnalités de base
+- Recherche et filtres
+- Mode sombre/clair
+
+### v1.0
+- Version initiale
+- Présentation statique des navires
+
+---
+
+## License
+
+MIT License - Vous êtes libre d'utiliser, modifier et redistribuer ce projet.
+
+---
+
+## Contact & Contribution
+
+Pour toute question, suggestion ou contribution, n'hésitez pas à ouvrir une issue sur GitHub.
 3. **Iowa** 🇺🇸 (USA)
 4. **Prinz Eugen** 🇩🇪 (Allemagne)
 5. **Richelieu** 🇫🇷 (France)
@@ -105,16 +311,16 @@ Site fan moderne, accessible et complet dédié à **World of Warships**, héber
 7. **Yamato** 🇯🇵 (Japon)
 
 ### Sections Principales
-- ⚓ **Accueil** - Hero section avec présentation
-- 🛢️ **Navires** - Cartes interactives avec stats
-- 🔍 **Recherche** - Filtrage avancé
-- 📊 **Stats** - Comparaison graphique
-- 📖 **Wiki** - Articles et guides
-- 📧 **Contact** - Liens externes
+-  **Accueil** - Hero section avec présentation
+-  **Navires** - Cartes interactives avec stats
+-  **Recherche** - Filtrage avancé
+-  **Stats** - Comparaison graphique
+-  **Wiki** - Articles et guides
+-  **Contact** - Liens externes
 
 ---
 
-## 🚀 Démarrage Rapide
+##  Démarrage Rapide
 
 ### Développement Local
 
@@ -171,35 +377,35 @@ Site disponible à: `https://yugos06.github.io/`
 
 ---
 
-## 📈 Améliorations Implémentées
+##  Améliorations Implémentées
 
 ### Phase 1️⃣ (Restructuration)
-✅ HTML sémantique
-✅ CSS responsive (3 breakpoints)
-✅ Navigation accessible au clavier
+ HTML sémantique
+ CSS responsive (3 breakpoints)
+Navigation accessible au clavier
 
 ### Phase 2️⃣ (Modernisation)
-✅ Mode sombre/clair avec localStorage
-✅ Animations CSS et JS
-✅ Cartes interactives
+ Mode sombre/clair avec localStorage
+ Animations CSS et JS
+Cartes interactives
 
 ### Phase 3️⃣ (Expansion)
-✅ Système de recherche & filtres
-✅ Galerie modale avec carrousel
-✅ Graphiques statistiques
-✅ Section blog/wiki
-✅ PWA avec Service Worker
-✅ Animations Intersection Observer
+ Système de recherche & filtres
+ Galerie modale avec carrousel
+ Graphiques statistiques
+ Section blog/wiki
+ PWA avec Service Worker
+ Animations Intersection Observer
 
-### Phase 4️⃣ (Polish) - ✨ ACTUELLE
-✅ Documentation complète
-✅ Tests d'accessibilité
-✅ Optimisation performance
-✅ Guide utilisateur détaillé
+### Phase 4️ (Polish) -  ACTUELLE
+ Documentation complète
+ Tests d'accessibilité
+ Optimisation performance
+Guide utilisateur détaillé
 
 ---
 
-## 📝 Configuration PWA
+##  Configuration PWA
 
 ### Manifest.json
 ```json
@@ -214,12 +420,12 @@ Site disponible à: `https://yugos06.github.io/`
 ```
 
 ### Installation
-- 📱 **Mobile**: Menu navigateur → "Ajouter à l'écran d'accueil"
-- 🖥️ **Desktop**: Icône installation dans la barre d'adresse
+-  **Mobile**: Menu navigateur → "Ajouter à l'écran d'accueil"
+-  **Desktop**: Icône installation dans la barre d'adresse
 
 ---
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Images ne chargent pas
 - Vérifier le chemin: `images/[shipname].png`
@@ -238,7 +444,7 @@ Site disponible à: `https://yugos06.github.io/`
 
 ---
 
-## 📚 Documentation
+##  Documentation
 
 Pour plus de détails, consultez:
 
@@ -250,7 +456,7 @@ Pour plus de détails, consultez:
 
 ---
 
-## 📊 Statistiques du Projet
+##  Statistiques du Projet
 
 - **Fichiers**: 13 (HTML, CSS, JS, JSON, MD)
 - **Lignes de code**: 1000+
@@ -261,30 +467,29 @@ Pour plus de détails, consultez:
 
 ---
 
-## 🎓 Apprentissages
+##  Apprentissages
 
 Ce projet démontre:
-- ✅ HTML5 sémantique
-- ✅ CSS3 moderne (Grid, Flexbox, variables)
-- ✅ JavaScript ES6+ (Vanilla)
-- ✅ Web APIs modernes (Service Worker, localStorage, Intersection Observer)
-- ✅ Design responsive
-- ✅ Accessibilité WCAG
-- ✅ Git & GitHub
+-  HTML5 sémantique
+-  CSS3 moderne (Grid, Flexbox, variables)
+- JavaScript ES6+ (Vanilla)
+-  Web APIs modernes (Service Worker, localStorage, Intersection Observer)
+-  Design responsive
+-  Accessibilité WCAG
+- Git & GitHub
 
 ---
 
-## 📞 Contact & Liens
+##  Contact & Liens
 
-- 🌐 **Site**: https://yugos06.github.io/
-- 📧 **Email**: (à configurer)
-- 🐙 **GitHub**: https://github.com/Yugos06
-- 🎮 **World of Warships**: https://www.worldofwarships.eu/
+-  **Site**: https://yugos06.github.io/
+-  **Email**: (à configurer)
+-  **GitHub**: https://github.com/Yugos06
+-  **World of Warships**: https://www.worldofwarships.eu/
 
 ---
 
-## 📄 Licence
-
+##  Licence
 © 2024-2026 Yugos - Tous droits réservés
 
 Ce site est un projet fan non-officiel de World of Warships.
@@ -292,7 +497,7 @@ World of Warships est une marque déposée de [Wargaming](https://wargaming.net/
 
 ---
 
-## 🏆 Crédits
+##  Crédits
 
 - **Développeur**: Yugos (3e année)
 - **Design**: CSS3 moderne
@@ -301,11 +506,11 @@ World of Warships est une marque déposée de [Wargaming](https://wargaming.net/
 
 ---
 
-**Dernière mise à jour**: Janvier 2024
+**Dernière mise à jour**: Janvier 2025
 **Version**: 2.0 (Complet)
-**Status**: ✅ Production Ready
+**Status**:  Production Ready
 
-🚀 **Site 100% fonctionnel avec toutes les features modernes!**
+ **Site 100% fonctionnel avec toutes les features modernes!**
 
 - Design en grille responsive
 - Flexbox pour la navigation
@@ -313,19 +518,19 @@ World of Warships est une marque déposée de [Wargaming](https://wargaming.net/
 - Media queries optimisées (768px et 480px)
 - Transitions fluides
 
-✅ **JavaScript Amélioré**
+ **JavaScript Amélioré**
 - Support complet du clavier (Enter/Space)
 - Smooth scroll vers les sections
 - Code bien commenté et documenté
 - Gestion d'événements clean
 
-✅ **UX/UI**
+ **UX/UI**
 - Boutons de contact fonctionnels
 - Lien GitHub actif
 - Animations au hover
 - Meilleur feedback utilisateur
 
-## 🎯 Utilisation
+##  Utilisation
 
 1. **Clonez le repo** (optionnel pour modifications)
 2. **Ouvrez `index.html`** dans votre navigateur
@@ -338,21 +543,21 @@ World of Warships est une marque déposée de [Wargaming](https://wargaming.net/
 - **Enter/Space** - Afficher/masquer la description
 - **Flèches** - Défilement automatique
 
-## 📱 Responsive
+## 📱Responsive
 
 - **Desktop** - Grille 3 colonnes
 - **Tablette** (768px) - Grille flexible
 - **Mobile** (480px) - Colonne unique
 
-## 🌐 Accessibilité
+##  Accessibilité
 
-- ✅ Navigation au clavier complète
-- ✅ Contraste suffisant des couleurs
-- ✅ Labels ARIA descriptifs
-- ✅ Attributs alt pour les images
-- ✅ Focus visibles
+- Navigation au clavier complète
+-  Contraste suffisant des couleurs
+-  Labels ARIA descriptifs
+-  Attributs alt pour les images
+-  Focus visibles
 
-## 💡 Améliorations Futures
+##  Améliorations Futures
 
 - [ ] Ajouter d'autres navires
 - [ ] Galerie d'images
@@ -360,11 +565,11 @@ World of Warships est une marque déposée de [Wargaming](https://wargaming.net/
 - [ ] Animations supplémentaires
 - [ ] Dark/Light mode
 
-## 📄 Licence
+##  Licence
 
 Voir le fichier [LICENSE](LICENSE)
 
-## 👤 Auteur
+##  Auteur
 
 **Yugos** - Fan de World of Warships
 
