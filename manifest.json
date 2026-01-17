@@ -41,12 +41,6 @@
       "form_factor": "wide"
     }
   ],
-  "categories": ["entertainment", "games"],
-  "screenshots": [
-    {
-      "src": "images/wave.png",
-      "sizes": "540x720",
-      "type": "image/png"
-    }
-  ]
+  "categories": ["entertainment", "games"]
+}
 }

@@ -122,44 +122,51 @@ function initializeGalleryModal() {
   nextBtn.addEventListener('click', nextImage);
 }
 
+// Gallery state management
+const galleryState = {
+  currentShipImages: [],
+  currentImageIndex: 0,
+  modal: null,
+  modalImage: null,
+  init() {
+    this.modal = document.getElementById('gallery-modal');
+    this.modalImage = document.getElementById('modal-image');
+  }
+};
+
 function openGallery(shipId) {
-  const modal = document.getElementById('gallery-modal');
-  const modalImage = document.getElementById('modal-image');
-  
   // Exemple : 3 images par navire (à adapter selon les images réelles)
-  window.currentShipImages = [
+  galleryState.currentShipImages = [
     `images/${shipId}.png`,
     `images/wave.png`,
     `images/${shipId}.png` // Repeat for demo
   ];
-  window.currentImageIndex = 0;
+  galleryState.currentImageIndex = 0;
   
   updateGalleryImage();
-  modal.classList.add('active');
+  galleryState.modal.classList.add('active');
 }
 
 function closeGallery() {
-  const modal = document.getElementById('gallery-modal');
-  modal.classList.remove('active');
+  galleryState.modal.classList.remove('active');
 }
 
 function updateGalleryImage() {
-  const modalImage = document.getElementById('modal-image');
-  if (window.currentShipImages && window.currentShipImages.length > 0) {
-    modalImage.src = window.currentShipImages[window.currentImageIndex];
+  if (galleryState.currentShipImages && galleryState.currentShipImages.length > 0) {
+    galleryState.modalImage.src = galleryState.currentShipImages[galleryState.currentImageIndex];
   }
 }
 
 function previousImage() {
-  if (window.currentShipImages) {
-    window.currentImageIndex = (window.currentImageIndex - 1 + window.currentShipImages.length) % window.currentShipImages.length;
+  if (galleryState.currentShipImages) {
+    galleryState.currentImageIndex = (galleryState.currentImageIndex - 1 + galleryState.currentShipImages.length) % galleryState.currentShipImages.length;
     updateGalleryImage();
   }
 }
 
 function nextImage() {
-  if (window.currentShipImages) {
-    window.currentImageIndex = (window.currentImageIndex + 1) % window.currentShipImages.length;
+  if (galleryState.currentShipImages) {
+    galleryState.currentImageIndex = (galleryState.currentImageIndex + 1) % galleryState.currentShipImages.length;
     updateGalleryImage();
   }
 }
@@ -303,15 +310,34 @@ function initializeBlog() {
 document.addEventListener('DOMContentLoaded', () => {
   console.log('🎮 Initializing World of Warships Fan Site...');
   
-  initializeDarkMode();
-  initializeSearch();
-  initializeShipCards();
-  initializeGalleryModal();
-  initializeStats();
-  initializeSmoothScroll();
-  initializeScrollAnimations();
-  initializeBlog();
-  initializeServiceWorker();
-  
-  console.log('✅ All features initialized!');
+  try {
+    galleryState.init();
+    initializeDarkMode();
+    initializeSearch();
+    initializeShipCards();
+    initializeGalleryModal();
+    initializeStats();
+    initializeSmoothScroll();
+    initializeScrollAnimations();
+    initializeBlog();
+    initializeEmailContact();
+    initializeServiceWorker();
+    console.log('✅ All features initialized!');
+  } catch (error) {
+    console.error('❌ Initialization error:', error);
+  }
 });
+
+// ===== Email Contact Handler =====
+function initializeEmailContact() {
+  const emailLink = document.querySelector('.email-link');
+  if (emailLink) {
+    emailLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Ouvrir un formulaire de contact ou rediriger vers email
+      const subject = encodeURIComponent('Contact depuis le site World of Warships');
+      const body = encodeURIComponent('Bonjour,\n\nJ\'aimerais te contacter concernant...\n\n');
+      window.location.href = `mailto:yugos@example.com?subject=${subject}&body=${body}`;
+    });
+  }
+}
