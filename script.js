@@ -207,38 +207,59 @@ function extractNumber(text) {
 }
 
 function displayChart(chartElement, shipData, statType) {
-  chartElement.innerHTML = '';
-  const maxValue = Math.max(...shipData.map(s => s[statType]));
+  // Créer un canvas si nécessaire
+  let canvas = chartElement.querySelector('canvas');
+  if (!canvas) {
+    canvas = document.createElement('canvas');
+    chartElement.innerHTML = '';
+    chartElement.appendChild(canvas);
+  }
   
-  shipData.forEach(ship => {
-    const value = ship[statType];
-    const percentage = (value / maxValue) * 100;
-    
-    const barContainer = document.createElement('div');
-    barContainer.style.marginBottom = '8px';
-    barContainer.style.fontSize = '0.8rem';
-    
-    const label = document.createElement('div');
-    label.textContent = `${ship.name}: ${value}`;
-    label.style.marginBottom = '4px';
-    
-    const bar = document.createElement('div');
-    bar.style.width = '100%';
-    bar.style.height = '20px';
-    bar.style.background = 'rgba(52, 152, 219, 0.3)';
-    bar.style.borderRadius = '4px';
-    bar.style.overflow = 'hidden';
-    
-    const fill = document.createElement('div');
-    fill.style.width = percentage + '%';
-    fill.style.height = '100%';
-    fill.style.background = 'linear-gradient(90deg, #f39c12, #e67e22)';
-    fill.style.transition = 'width 0.5s ease';
-    
-    bar.appendChild(fill);
-    barContainer.appendChild(label);
-    barContainer.appendChild(bar);
-    chartElement.appendChild(barContainer);
+  // Détruire le graphique existant s'il existe
+  const chartInstance = Chart.helpers.getChart(canvas);
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+  
+  const labels = shipData.map(s => s.name);
+  const data = shipData.map(s => s[statType]);
+  const statLabels = { power: 'Puissance', armor: 'Armure', speed: 'Vitesse' };
+  
+  new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: statLabels[statType],
+        data: data,
+        backgroundColor: 'rgba(243, 156, 18, 0.7)',
+        borderColor: '#f39c12',
+        borderWidth: 2,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          display: true,
+          labels: { color: '#f0f0f0', font: { size: 12 } }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 5,
+          ticks: { color: '#f0f0f0' },
+          grid: { color: 'rgba(255, 255, 255, 0.1)' }
+        },
+        x: {
+          ticks: { color: '#f0f0f0' },
+          grid: { color: 'rgba(255, 255, 255, 0.1)' }
+        }
+      }
+    }
   });
 }
 
@@ -306,6 +327,89 @@ function initializeBlog() {
   });
 }
 
+// ===== Ship Comparison =====
+function initializeComparison() {
+  const shipCards = document.querySelectorAll('.ship-card');
+  const shipSelects = document.querySelectorAll('.ship-select');
+  const resetBtn = document.getElementById('reset-comparison');
+  
+  // Populate ship select dropdowns
+  shipSelects.forEach(select => {
+    shipCards.forEach(card => {
+      const shipName = card.querySelector('h3').textContent;
+      const option = document.createElement('option');
+      option.value = card.id;
+      option.textContent = shipName;
+      select.appendChild(option);
+    });
+    
+    select.addEventListener('change', updateComparison);
+  });
+  
+  resetBtn.addEventListener('click', () => {
+    shipSelects.forEach(select => select.value = '');
+    document.getElementById('comparison-table').style.display = 'none';
+  });
+}
+
+function updateComparison() {
+  const shipSelects = document.querySelectorAll('.ship-select');
+  const selectedShips = [];
+  
+  shipSelects.forEach((select, index) => {
+    if (select.value) {
+      const shipCard = document.getElementById(select.value);
+      if (shipCard) {
+        selectedShips.push({
+          index: index + 1,
+          id: select.value,
+          name: shipCard.querySelector('h3').textContent,
+          country: shipCard.querySelector('[data-country]').getAttribute('data-country'),
+          type: shipCard.querySelector('.stat:nth-child(2)')?.textContent || '-',
+          power: extractStars(shipCard.querySelector('.stat:nth-child(3)')),
+          armor: extractStars(shipCard.querySelector('.stat:nth-child(4)')),
+          speed: extractStars(shipCard.querySelector('.stat:nth-child(5)'))
+        });
+      }
+    }
+  });
+  
+  if (selectedShips.length > 0) {
+    displayComparison(selectedShips);
+  }
+}
+
+function extractStars(element) {
+  if (!element) return '-';
+  const match = element.textContent.match(/⚡+/);
+  return match ? match[0].length : '-';
+}
+
+function displayComparison(ships) {
+  const table = document.getElementById('comparison-table');
+  
+  // Update table headers
+  for (let i = 1; i <= 3; i++) {
+    const header = document.getElementById(`ship-col-${i}`);
+    const ship = ships.find(s => s.index === i);
+    header.textContent = ship ? ship.name : '-';
+    header.style.color = ship ? '#f39c12' : '#666';
+  }
+  
+  // Update table data
+  for (let i = 1; i <= 3; i++) {
+    const ship = ships.find(s => s.index === i);
+    document.getElementById(`country-${i}`).textContent = ship ? ship.country.toUpperCase() : '-';
+    document.getElementById(`type-${i}`).textContent = ship ? ship.type.replace(/Type:/, '').trim() : '-';
+    document.getElementById(`power-${i}`).textContent = ship ? '⚡'.repeat(ship.power) : '-';
+    document.getElementById(`armor-${i}`).textContent = ship ? '🛡️' + '⚡'.repeat(ship.armor) : '-';
+    document.getElementById(`speed-${i}`).textContent = ship ? '⚡'.repeat(ship.speed) : '-';
+  }
+  
+  table.style.display = 'block';
+  table.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
 // ===== Init All =====
 document.addEventListener('DOMContentLoaded', () => {
   console.log('🎮 Initializing World of Warships Fan Site...');
@@ -316,6 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeSearch();
     initializeShipCards();
     initializeGalleryModal();
+    initializeComparison();
     initializeStats();
     initializeSmoothScroll();
     initializeScrollAnimations();

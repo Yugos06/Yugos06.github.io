@@ -355,6 +355,123 @@ a:focus {
   min-height: 200px;
 }
 
+/* Comparison Selector */
+.comparison-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: rgba(243, 156, 18, 0.05);
+  border: 1px solid rgba(243, 156, 18, 0.3);
+  border-radius: 8px;
+}
+
+.selector-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.selector-group label {
+  font-weight: bold;
+  color: #f39c12;
+  font-size: 0.95rem;
+}
+
+.ship-select {
+  padding: 10px 12px;
+  background-color: rgba(27, 40, 56, 0.8);
+  color: #f0f0f0;
+  border: 2px solid rgba(243, 156, 18, 0.5);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ship-select:hover,
+.ship-select:focus {
+  border-color: #f39c12;
+  background-color: rgba(27, 40, 56, 0.95);
+  box-shadow: 0 0 8px rgba(243, 156, 18, 0.3);
+  outline: none;
+}
+
+.ship-select option {
+  background-color: #0b1a2b;
+  color: #f0f0f0;
+}
+
+.reset-btn {
+  padding: 10px 20px;
+  background-color: rgba(231, 76, 60, 0.7);
+  border: 2px solid #e74c3c;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  align-self: flex-end;
+}
+
+.reset-btn:hover,
+.reset-btn:focus {
+  background-color: #e74c3c;
+  box-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
+  outline: none;
+}
+
+/* Comparison Table */
+.comparison-table-container {
+  margin-bottom: 30px;
+  overflow-x: auto;
+  border-radius: 8px;
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: rgba(27, 40, 56, 0.8);
+  border: 1px solid rgba(243, 156, 18, 0.3);
+}
+
+.comparison-table thead {
+  background-color: rgba(243, 156, 18, 0.15);
+  border-bottom: 2px solid #f39c12;
+}
+
+.comparison-table th {
+  padding: 15px;
+  color: #f39c12;
+  font-weight: bold;
+  text-align: left;
+  border-right: 1px solid rgba(243, 156, 18, 0.3);
+}
+
+.comparison-table th:last-child {
+  border-right: none;
+}
+
+.comparison-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid rgba(243, 156, 18, 0.2);
+  border-right: 1px solid rgba(243, 156, 18, 0.2);
+  color: #d0d0d0;
+}
+
+.comparison-table td:last-child {
+  border-right: none;
+}
+
+.comparison-table tbody tr:hover {
+  background-color: rgba(243, 156, 18, 0.08);
+}
+
+.comparison-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
 /* Search & Filter Section */
 .search-section {
   text-align: center;
@@ -555,29 +672,9 @@ footer p {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  header h1 {
-    font-size: 2rem;
-  }
-
-  h1, h2 {
-    font-size: 2rem;
-  }
-
-  .hero-section h2 {
-    font-size: 2rem;
-  }
-
+@media (max-width: 1024px) {
   .cards-container {
-    grid-template-columns: 1fr;
-  }
-
-  .menu {
-    gap: 15px;
-  }
-
-  .menu a {
-    font-size: 0.9rem;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   section {
@@ -585,65 +682,252 @@ footer p {
     margin: 20px auto;
   }
 
+  header h1 {
+    font-size: 2rem;
+  }
+
+  .comparison-selector {
+    grid-template-columns: 1fr;
+  }
+
+  .reset-btn {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+  }
+
+  h1, h2 {
+    font-size: 1.8rem;
+  }
+
+  .hero-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .cards-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .ship-card {
+    padding: 15px;
+  }
+
+  .ship-card img {
+    height: 200px;
+  }
+
+  .menu {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .menu a {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
+
+  .filter-buttons {
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  section {
+    padding: 25px 12px;
+    margin: 15px auto;
+    border-radius: 10px;
+  }
+
   .contact-links {
     flex-direction: column;
     align-items: center;
+    gap: 10px;
   }
 
   .contact-links a {
     width: 100%;
     text-align: center;
+    padding: 12px 20px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
   }
 }
 
 @media (max-width: 480px) {
   header h1 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     margin-bottom: 10px;
   }
 
   h1, h2 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 
   .hero-section h2 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+  }
+
+  .hero-section {
+    padding: 20px 15px;
   }
 
   p {
-    font-size: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .cards-container {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .ship-card {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .ship-card img {
+    height: 150px;
+    border-radius: 8px;
+  }
+
+  .card-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .rating {
+    font-size: 0.9rem;
+  }
+
+  .ship-desc {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+
+  .ship-stats {
+    gap: 6px;
+    font-size: 0.85rem;
+  }
+
+  .stat {
+    padding: 5px;
+    border-left: 2px solid #f39c12;
+  }
+
+  .gallery-btn {
+    padding: 8px 12px;
+    font-size: 0.85rem;
   }
 
   .menu {
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
   }
 
   .menu a {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    padding: 6px 10px;
+    margin: 0;
+  }
+
+  .filter-buttons {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+
+  .search-input {
+    font-size: 0.95rem;
+    padding: 10px;
   }
 
   section {
-    padding: 20px 10px;
-    margin: 15px auto;
+    padding: 18px 10px;
+    margin: 12px auto;
     border-radius: 8px;
   }
 
   .contact-links {
-    gap: 10px;
-  }
-
-  .contact-links a {
-    padding: 10px 20px;
-  }
-    width: 90%;
-  }
-
-  .menu {
+    gap: 8px;
     flex-direction: column;
   }
 
-  .menu a {
-    margin: 10px 0;
+  .contact-links a {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .blog-card {
+    padding: 15px;
+  }
+
+  .blog-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .blog-card p {
+    font-size: 0.9rem;
+  }
+
+  .modal-content {
+    width: 95%;
+    max-height: 80vh;
+  }
+
+  .gallery-carousel img {
+    max-height: 60vh;
+  }
+
+  /* Mobile Comparison */
+  .comparison-selector {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .reset-btn {
+    align-self: flex-start;
+  }
+
+  .comparison-table {
+    font-size: 0.85rem;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    padding: 10px 8px;
   }
 }

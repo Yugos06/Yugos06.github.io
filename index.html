@@ -6,6 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Site fan de World of Warships présentant les navires les plus célèbres du jeu">
   <meta name="theme-color" content="#0b1a2b">
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="World of Warships - Yugos">
+  <meta property="og:description" content="Explorez les navires les plus puissants de World of Warships avec notre guide complet.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yugos06.github.io">
+  <meta property="og:image" content="https://yugos06.github.io/images/bismarck.png">
+  <meta property="og:site_name" content="World of Warships - Yugos">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="World of Warships - Yugos">
+  <meta name="twitter:description" content="Guide complet des navires World of Warships">
   <link rel="manifest" href="manifest.json">
   <title>World of Warships - Yugos</title>
   <link rel="stylesheet" href="style.css">
@@ -44,14 +55,18 @@
         <button class="filter-btn" data-filter="usa">USA</button>
         <button class="filter-btn" data-filter="japon">Japon</button>
         <button class="filter-btn" data-filter="uk">UK</button>
+        <button class="filter-btn" data-filter="pays-bas">Pays-Bas</button>
       </div>
     </section>
 
     <section id="navires" class="ships-section">
       <h2>Navires Célèbres</h2>
       <ul class="cards-container" aria-label="Liste des navires célèbres">
-        <li class="ship-card" id="bismarck" data-country="allemagne" data-type="cuirasse" tabindex="0">
-          <img src="images/bismarck.png" alt="Cuirassé Bismarck - Navire allemand" loading="lazy">
+        <li class="ship-card" id="bismarck" data-country="allemagne" data-type="cuirasse" tabindex="0" role="article" aria-label="Fiche du navire Bismarck">
+          <picture>
+            <source srcset="images/bismarck.webp" type="image/webp">
+            <img src="images/bismarck.png" alt="Cuirassé Bismarck - Navire allemand" loading="lazy" aria-label="Image du Bismarck">
+          </picture>
           <div class="card-header">
             <h3>Bismarck</h3>
             <div class="rating">★★★★★</div>
@@ -67,8 +82,11 @@
           <button class="gallery-btn">Galerie (3 images)</button>
         </li>
 
-        <li class="ship-card" id="yamato" data-country="japon" data-type="cuirasse" tabindex="0">
-          <img src="images/yamato.png" alt="Cuirassé Yamato - Navire japonais" loading="lazy">
+        <li class="ship-card" id="yamato" data-country="japon" data-type="cuirasse" tabindex="0" role="article" aria-label="Fiche du navire Yamato">
+          <picture>
+            <source srcset="images/yamato.webp" type="image/webp">
+            <img src="images/yamato.png" alt="Cuirassé Yamato - Navire japonais" loading="lazy" aria-label="Image du Yamato">
+          </picture>
           <div class="card-header">
             <h3>Yamato</h3>
             <div class="rating">★★★★★</div>
@@ -84,8 +102,11 @@
           <button class="gallery-btn">Galerie (3 images)</button>
         </li>
 
-        <li class="ship-card" id="hood" data-country="uk" data-type="croiseur" tabindex="0">
-          <img src="images/hood.png" alt="Croiseur de bataille Hood - Navire britannique" loading="lazy">
+        <li class="ship-card" id="hood" data-country="uk" data-type="croiseur" tabindex="0" role="article" aria-label="Fiche du navire Hood">
+          <picture>
+            <source srcset="images/hood.webp" type="image/webp">
+            <img src="images/hood.png" alt="Croiseur de bataille Hood - Navire britannique" loading="lazy" aria-label="Image du Hood">
+          </picture>
           <div class="card-header">
             <h3>Hood</h3>
             <div class="rating">★★★★</div>
@@ -101,8 +122,11 @@
           <button class="gallery-btn">Galerie (3 images)</button>
         </li>
 
-        <li class="ship-card" id="iowa" data-country="usa" data-type="cuirasse" tabindex="0">
-          <img src="images/iowa.png" alt="Cuirassé Iowa - Navire américain" loading="lazy">
+        <li class="ship-card" id="iowa" data-country="usa" data-type="cuirasse" tabindex="0" role="article" aria-label="Fiche du navire Iowa">
+          <picture>
+            <source srcset="images/iowa.webp" type="image/webp">
+            <img src="images/iowa.png" alt="Cuirassé Iowa - Navire américain" loading="lazy" aria-label="Image de l'Iowa">
+          </picture>
           <div class="card-header">
             <h3>Iowa</h3>
             <div class="rating">★★★★</div>
@@ -118,8 +142,11 @@
           <button class="gallery-btn">Galerie (3 images)</button>
         </li>
 
-        <li class="ship-card" id="richelieu" data-country="france" data-type="cuirasse" tabindex="0">
-          <img src="images/richelieu.png" alt="Cuirassé Richelieu - Navire français" loading="lazy">
+        <li class="ship-card" id="richelieu" data-country="france" data-type="cuirasse" tabindex="0" role="article" aria-label="Fiche du navire Richelieu">
+          <picture>
+            <source srcset="images/richelieu.webp" type="image/webp">
+            <img src="images/richelieu.png" alt="Cuirassé Richelieu - Navire français" loading="lazy" aria-label="Image du Richelieu">
+          </picture>
           <div class="card-header">
             <h3>Richelieu</h3>
             <div class="rating">★★★★</div>
@@ -135,8 +162,11 @@
           <button class="gallery-btn">Galerie (3 images)</button>
         </li>
 
-        <li class="ship-card" id="prinz-eugen" data-country="allemagne" data-type="croiseur" tabindex="0">
-          <img src="images/prinz_eugen.png" alt="Croiseur lourd Prinz Eugen - Navire allemand" loading="lazy">
+        <li class="ship-card" id="prinz-eugen" data-country="allemagne" data-type="croiseur" tabindex="0" role="article" aria-label="Fiche du navire Prinz Eugen">
+          <picture>
+            <source srcset="images/prinz_eugen.webp" type="image/webp">
+            <img src="images/prinz_eugen.png" alt="Croiseur lourd Prinz Eugen - Navire allemand" loading="lazy" aria-label="Image du Prinz Eugen">
+          </picture>
           <div class="card-header">
             <h3>Prinz Eugen</h3>
             <div class="rating">★★★★</div>
@@ -152,8 +182,11 @@
           <button class="gallery-btn">Galerie (3 images)</button>
         </li>
 
-        <li class="ship-card" id="vladivostok" data-country="urss" data-type="cuirasse" tabindex="0">
-          <img src="images/vladivostok.png" alt="Cuirassé Vladivostok - Navire soviétique" loading="lazy">
+        <li class="ship-card" id="vladivostok" data-country="urss" data-type="cuirasse" tabindex="0" role="article" aria-label="Fiche du navire Vladivostok">
+          <picture>
+            <source srcset="images/vladivostok.webp" type="image/webp">
+            <img src="images/vladivostok.png" alt="Cuirassé Vladivostok - Navire soviétique" loading="lazy" aria-label="Image du Vladivostok">
+          </picture>
           <div class="card-header">
             <h3>Vladivostok</h3>
             <div class="rating">★★★★</div>
@@ -168,13 +201,145 @@
           </div>
           <button class="gallery-btn">Galerie (3 images)</button>
         </li>
+
+        <li class="ship-card" id="prince-of-wales" data-country="uk" data-type="cuirasse" tabindex="0" role="article" aria-label="Fiche du navire Prince of Wales">
+          <picture>
+            <source srcset="images/Prince_of_wales.webp" type="image/webp">
+            <img src="images/Prince_of_wales.png" alt="Cuirassé Prince of Wales - Navire britannique" loading="lazy" aria-label="Image du Prince of Wales">
+          </picture>
+          <div class="card-header">
+            <h3>Prince of Wales</h3>
+            <div class="rating">★★★★</div>
+          </div>
+          <p class="ship-desc">Cuirassé britannique moderne, légendaire pour son engagement contre le Bismarck lors de sa sortie en mai 1941.</p>
+          <div class="ship-stats">
+            <div class="stat"><span class="stat-label">Pays:</span> 🇬🇧 UK</div>
+            <div class="stat"><span class="stat-label">Type:</span> Cuirassé</div>
+            <div class="stat"><span class="stat-label">Puissance:</span> ⚡⚡⚡⚡</div>
+            <div class="stat"><span class="stat-label">Armure:</span> 🛡️⚡⚡⚡⚡</div>
+            <div class="stat"><span class="stat-label">Vitesse:</span> ⚡⚡⚡⚡</div>
+          </div>
+          <button class="gallery-btn">Galerie (3 images)</button>
+        </li>
+
+        <li class="ship-card" id="grober-kurfurst" data-country="allemagne" data-type="cuirasse" tabindex="0" role="article" aria-label="Fiche du navire Großer Kurfürst">
+          <picture>
+            <source srcset="images/Grober_Kurfurst.webp" type="image/webp">
+            <img src="images/Grober_Kurfurst.png" alt="Cuirassé Großer Kurfürst - Navire allemand" loading="lazy" aria-label="Image du Großer Kurfürst">
+          </picture>
+          <div class="card-header">
+            <h3>Großer Kurfürst</h3>
+            <div class="rating">★★★★★</div>
+          </div>
+          <p class="ship-desc">Cuirassé de classe H allemand ultrapuissant, jamais construit en réalité mais designs des plus avancés de la marine allemande.</p>
+          <div class="ship-stats">
+            <div class="stat"><span class="stat-label">Pays:</span> 🇩🇪 Allemagne</div>
+            <div class="stat"><span class="stat-label">Type:</span> Cuirassé</div>
+            <div class="stat"><span class="stat-label">Puissance:</span> ⚡⚡⚡⚡⚡</div>
+            <div class="stat"><span class="stat-label">Armure:</span> 🛡️⚡⚡⚡⚡</div>
+            <div class="stat"><span class="stat-label">Vitesse:</span> ⚡⚡⚡⚡</div>
+          </div>
+          <button class="gallery-btn">Galerie (3 images)</button>
+        </li>
+
+        <li class="ship-card" id="de-zeven-provincien" data-country="pays-bas" data-type="croiseur" tabindex="0" role="article" aria-label="Fiche du navire De Zeven Provinciën">
+          <picture>
+            <source srcset="images/de-zeven-provincien.webp" type="image/webp">
+            <img src="images/de-zeven-provincien.png" alt="Croiseur De Zeven Provinciën - Navire néerlandais" loading="lazy" aria-label="Image du De Zeven Provinciën">
+          </picture>
+          <div class="card-header">
+            <h3>De Zeven Provinciën</h3>
+            <div class="rating">★★★</div>
+          </div>
+          <p class="ship-desc">Croiseur léger néerlandais rapide et agile, conçu pour les missions de reconnaissance et d'escorte en eaux coloniales.</p>
+          <div class="ship-stats">
+            <div class="stat"><span class="stat-label">Pays:</span> 🇳🇱 Pays-Bas</div>
+            <div class="stat"><span class="stat-label">Type:</span> Croiseur léger</div>
+            <div class="stat"><span class="stat-label">Puissance:</span> ⚡⚡⚡</div>
+            <div class="stat"><span class="stat-label">Armure:</span> 🛡️⚡⚡</div>
+            <div class="stat"><span class="stat-label">Vitesse:</span> ⚡⚡⚡⚡⚡</div>
+          </div>
+          <button class="gallery-btn">Galerie (3 images)</button>
+        </li>
       </ul>
     </section>
 
     <!-- Section Stats -->
     <section id="stats" class="stats-section">
-      <h2>Comparateur de Navires</h2>
-      <div class="stats-grid">
+      <h2>⚡ Comparateur de Navires</h2>
+      <p style="text-align: center; color: #d0d0d0; margin-bottom: 20px;">Sélectionnez jusqu'à 3 navires pour les comparer</p>
+      
+      <!-- Sélecteur de navires -->
+      <div class="comparison-selector">
+        <div class="selector-group">
+          <label for="ship-select-1">Navire 1:</label>
+          <select id="ship-select-1" class="ship-select" data-index="1">
+            <option value="">-- Choisir un navire --</option>
+          </select>
+        </div>
+        <div class="selector-group">
+          <label for="ship-select-2">Navire 2:</label>
+          <select id="ship-select-2" class="ship-select" data-index="2">
+            <option value="">-- Choisir un navire --</option>
+          </select>
+        </div>
+        <div class="selector-group">
+          <label for="ship-select-3">Navire 3:</label>
+          <select id="ship-select-3" class="ship-select" data-index="3">
+            <option value="">-- Choisir un navire --</option>
+          </select>
+        </div>
+        <button id="reset-comparison" class="reset-btn">Réinitialiser</button>
+      </div>
+
+      <!-- Tableau comparatif -->
+      <div class="comparison-table-container" id="comparison-table" style="display: none;">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Caractéristique</th>
+              <th id="ship-col-1">-</th>
+              <th id="ship-col-2">-</th>
+              <th id="ship-col-3">-</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Pays</strong></td>
+              <td id="country-1">-</td>
+              <td id="country-2">-</td>
+              <td id="country-3">-</td>
+            </tr>
+            <tr>
+              <td><strong>Type</strong></td>
+              <td id="type-1">-</td>
+              <td id="type-2">-</td>
+              <td id="type-3">-</td>
+            </tr>
+            <tr>
+              <td><strong>Puissance</strong></td>
+              <td id="power-1">-</td>
+              <td id="power-2">-</td>
+              <td id="power-3">-</td>
+            </tr>
+            <tr>
+              <td><strong>Armure</strong></td>
+              <td id="armor-1">-</td>
+              <td id="armor-2">-</td>
+              <td id="armor-3">-</td>
+            </tr>
+            <tr>
+              <td><strong>Vitesse</strong></td>
+              <td id="speed-1">-</td>
+              <td id="speed-2">-</td>
+              <td id="speed-3">-</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Graphiques statiques -->
+      <div class="stats-grid" style="margin-top: 40px;">
         <div class="stat-card">
           <h3>Puissance</h3>
           <div id="power-chart" class="chart"></div>
@@ -243,6 +408,7 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js" defer></script>
   <script src="service-worker-register.js" defer></script>
 </body>
