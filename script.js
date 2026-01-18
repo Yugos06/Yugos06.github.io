@@ -136,11 +136,20 @@ const galleryState = {
 
 function openGallery(shipId) {
   // Exemple : 3 images par navire (à adapter selon les images réelles)
-  galleryState.currentShipImages = [
-    `images/${shipId}.png`,
-    `images/wave.png`,
-    `images/${shipId}.png` // Repeat for demo
-  ];
+  const shipImages = {
+    'bismarck': ['images/bismarck.png', 'images/wave.png', 'images/bismarck.png'],
+    'yamato': ['images/yamato.png', 'images/wave.png', 'images/yamato.png'],
+    'hood': ['images/hood.png', 'images/wave.png', 'images/hood.png'],
+    'iowa': ['images/iowa.png', 'images/wave.png', 'images/iowa.png'],
+    'richelieu': ['images/richelieu.png', 'images/wave.png', 'images/richelieu.png'],
+    'prinz-eugen': ['images/prinz_eugen.png', 'images/wave.png', 'images/prinz_eugen.png'],
+    'vladivostok': ['images/vladivostok.png', 'images/wave.png', 'images/vladivostok.png'],
+    'prince-of-wales': ['images/prince_of_wales.png', 'images/wave.png', 'images/prince_of_wales.png'],
+    'grober-kurfurst': ['images/grosser_kurfurst.png', 'images/wave.png', 'images/grosser_kurfurst.png'],
+    'de-zeven-provincien': ['images/de_zeven_provincien.png', 'images/wave.png', 'images/de_zeven_provincien.png']
+  };
+  
+  galleryState.currentShipImages = shipImages[shipId] || ['images/wave.png', 'images/wave.png', 'images/wave.png'];
   galleryState.currentImageIndex = 0;
   
   updateGalleryImage();
@@ -360,15 +369,16 @@ function updateComparison() {
     if (select.value) {
       const shipCard = document.getElementById(select.value);
       if (shipCard) {
+        const stats = shipCard.querySelectorAll('.stat');
         selectedShips.push({
           index: index + 1,
           id: select.value,
           name: shipCard.querySelector('h3').textContent,
-          country: shipCard.querySelector('[data-country]').getAttribute('data-country'),
-          type: shipCard.querySelector('.stat:nth-child(2)')?.textContent || '-',
-          power: extractStars(shipCard.querySelector('.stat:nth-child(3)')),
-          armor: extractStars(shipCard.querySelector('.stat:nth-child(4)')),
-          speed: extractStars(shipCard.querySelector('.stat:nth-child(5)'))
+          country: shipCard.getAttribute('data-country'),
+          type: stats[1]?.textContent.replace(/Type:/, '').trim() || '-',
+          power: extractStars(stats[2]),
+          armor: extractStars(stats[3]),
+          speed: extractStars(stats[4])
         });
       }
     }
@@ -376,13 +386,16 @@ function updateComparison() {
   
   if (selectedShips.length > 0) {
     displayComparison(selectedShips);
+  } else {
+    document.getElementById('comparison-table').style.display = 'none';
   }
 }
 
 function extractStars(element) {
-  if (!element) return '-';
-  const match = element.textContent.match(/⚡+/);
-  return match ? match[0].length : '-';
+  if (!element) return 0;
+  const text = element.textContent;
+  const match = text.match(/⚡+/g);
+  return match && match[0] ? match[0].length : 0;
 }
 
 function displayComparison(ships) {
@@ -399,11 +412,36 @@ function displayComparison(ships) {
   // Update table data
   for (let i = 1; i <= 3; i++) {
     const ship = ships.find(s => s.index === i);
-    document.getElementById(`country-${i}`).textContent = ship ? ship.country.toUpperCase() : '-';
-    document.getElementById(`type-${i}`).textContent = ship ? ship.type.replace(/Type:/, '').trim() : '-';
-    document.getElementById(`power-${i}`).textContent = ship ? '⚡'.repeat(ship.power) : '-';
-    document.getElementById(`armor-${i}`).textContent = ship ? '🛡️' + '⚡'.repeat(ship.armor) : '-';
-    document.getElementById(`speed-${i}`).textContent = ship ? '⚡'.repeat(ship.speed) : '-';
+    
+    // Country avec drapeau
+    const countryElement = document.getElementById(`country-${i}`);
+    if (ship) {
+      const flags = {
+        'allemagne': '🇩🇪',
+        'france': '🇫🇷',
+        'japon': '🇯🇵',
+        'usa': '🇺🇸',
+        'uk': '🇬🇧',
+        'urss': '🇷🇺',
+        'pays-bas': '🇳🇱'
+      };
+      const flag = flags[ship.country] || '';
+      countryElement.textContent = flag + ' ' + ship.country.toUpperCase();
+    } else {
+      countryElement.textContent = '-';
+    }
+    
+    // Type
+    document.getElementById(`type-${i}`).textContent = ship ? ship.type : '-';
+    
+    // Puissance
+    document.getElementById(`power-${i}`).textContent = ship && typeof ship.power === 'number' && ship.power > 0 ? '⚡'.repeat(ship.power) : '-';
+    
+    // Armure
+    document.getElementById(`armor-${i}`).textContent = ship && typeof ship.armor === 'number' && ship.armor > 0 ? '🛡️' + '⚡'.repeat(ship.armor) : '-';
+    
+    // Vitesse
+    document.getElementById(`speed-${i}`).textContent = ship && typeof ship.speed === 'number' && ship.speed > 0 ? '⚡'.repeat(ship.speed) : '-';
   }
   
   table.style.display = 'block';
