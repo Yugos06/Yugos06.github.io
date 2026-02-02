@@ -24,13 +24,13 @@ function initializeDarkMode() {
 function initializeSearch() {
   const searchInput = document.getElementById('search-input');
   const filterButtons = document.querySelectorAll('.filter-btn');
-  const shipCards = document.querySelectorAll('.ship-card');
+  const resultsCount = document.getElementById('results-count');
   let currentFilter = 'all';
   
   // Search in real-time
   searchInput.addEventListener('input', () => {
     const searchTerm = searchInput.value.toLowerCase();
-    filterCards(searchTerm, currentFilter);
+    filterCards(searchTerm, currentFilter, resultsCount);
   });
   
   // Filter buttons
@@ -40,13 +40,16 @@ function initializeSearch() {
       btn.classList.add('active');
       currentFilter = btn.getAttribute('data-filter');
       const searchTerm = searchInput.value.toLowerCase();
-      filterCards(searchTerm, currentFilter);
+      filterCards(searchTerm, currentFilter, resultsCount);
     });
   });
+
+  filterCards('', currentFilter, resultsCount);
 }
 
-function filterCards(searchTerm, country) {
+function filterCards(searchTerm, country, resultsCount) {
   const shipCards = document.querySelectorAll('.ship-card');
+  let visibleCount = 0;
   
   shipCards.forEach(card => {
     const shipName = card.querySelector('h3')?.textContent.toLowerCase() || '';
@@ -59,8 +62,16 @@ function filterCards(searchTerm, country) {
     const countryMatch = country === 'all' || shipCountry === country;
     
     // Show/hide card
-    card.style.display = (nameMatch && countryMatch) ? 'flex' : 'none';
+    const isVisible = nameMatch && countryMatch;
+    card.style.display = isVisible ? 'flex' : 'none';
+    if (isVisible) visibleCount += 1;
   });
+
+  if (resultsCount) {
+    resultsCount.textContent = visibleCount === 0
+      ? 'Aucun navire trouvé.'
+      : `${visibleCount} navire${visibleCount > 1 ? 's' : ''} affiché${visibleCount > 1 ? 's' : ''}.`;
+  }
 }
 
 // ===== Ship Card Interactions =====
@@ -146,10 +157,21 @@ function openGallery(shipId) {
     'vladivostok': ['images/vladivostok.png', 'images/wave.png', 'images/vladivostok.png'],
     'prince-of-wales': ['images/prince_of_wales.png', 'images/wave.png', 'images/prince_of_wales.png'],
     'grober-kurfurst': ['images/grosser_kurfurst.png', 'images/wave.png', 'images/grosser_kurfurst.png'],
-    'de-zeven-provincien': ['images/de_zeven_provincien.png', 'images/wave.png', 'images/de_zeven_provincien.png']
+    'de-zeven-provincien': ['images/de_zeven_provincien.png', 'images/wave.png', 'images/de_zeven_provincien.png'],
+    'admiral-scheer': ['images/Admiral-Scheer.png', 'images/wave.png', 'images/Admiral-Scheer.png'],
+    'gascogne': ['images/FNFF-Gasgogne.png', 'images/wave.png', 'images/FNFF-Gasgogne.png'],
+    'shokaku': ['images/ijn-shokaku.png', 'images/wave.png', 'images/ijn-shokaku.png'],
+    'komsomolets': ['images/wowsL-Legends_Komsomolets.png', 'images/wave.png', 'images/wowsL-Legends_Komsomolets.png'],
+    'wave': ['images/wave.png', 'images/wave.png', 'images/wave.png']
   };
-  
-  galleryState.currentShipImages = shipImages[shipId] || ['images/wave.png', 'images/wave.png', 'images/wave.png'];
+
+  const fallbackImage = (() => {
+    const card = document.getElementById(shipId);
+    const img = card?.querySelector('img');
+    return img?.getAttribute('src') || 'images/wave.png';
+  })();
+
+  galleryState.currentShipImages = shipImages[shipId] || [fallbackImage, fallbackImage, fallbackImage];
   galleryState.currentImageIndex = 0;
   
   updateGalleryImage();
