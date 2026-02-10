@@ -38,6 +38,7 @@ function initializeViewer() {
   const viewerJumps = document.querySelectorAll('.viewer-jump');
   const viewerProgress = document.querySelector('.viewer-progress');
   const viewerProgressBar = document.getElementById('viewer-progress-bar');
+  const viewerReset = document.getElementById('viewer-reset');
 
   if (!viewerStage || !viewerImage || !viewerSelect) return;
 
@@ -96,9 +97,10 @@ function initializeViewer() {
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1));
 
-    const camera = new PerspectiveCamera(35, 1, 0.1, 100);
-    camera.position.set(3.8, 2.6, 5.8);
-    camera.lookAt(0, 0.6, 0);
+    const camera = new PerspectiveCamera(38, 1, 0.1, 100);
+    const defaultCamera = { x: 2.6, y: 1.9, z: 3.9, lookY: 0.6 };
+    camera.position.set(defaultCamera.x, defaultCamera.y, defaultCamera.z);
+    camera.lookAt(0, defaultCamera.lookY, 0);
 
     const ambient = new AmbientLight(0xffffff, 0.8);
     const keyLight = new DirectionalLight(0xffffff, 0.9);
@@ -162,7 +164,7 @@ function initializeViewer() {
           model.position.sub(center);
          
           const maxDim = Math.max(size.x, size.y, size.z);
-          const scale = maxDim > 0 ? 3.2 / maxDim : 1;
+          const scale = maxDim > 0 ? 4.2 / maxDim : 1;
           model.scale.set(scale, scale, scale);
         
           const boxAfter = new Box3().setFromObject(model);
@@ -240,7 +242,14 @@ function initializeViewer() {
       group.visible = !enabled;
     };
 
-    return { setShip, setRotation, resize, loadModel, set3DMode, render };
+    const resetCamera = () => {
+      camera.position.set(defaultCamera.x, defaultCamera.y, defaultCamera.z);
+      camera.lookAt(0, defaultCamera.lookY, 0);
+      root.rotation.y = 0;
+      render();
+    };
+
+    return { setShip, setRotation, resize, loadModel, set3DMode, render, resetCamera };
   };
 
   const viewer3D = createViewer3D();
@@ -414,6 +423,15 @@ function initializeViewer() {
     viewerStage.addEventListener('pointermove', onPointerMove);
     viewerStage.addEventListener('pointerup', onPointerUp);
     viewerStage.addEventListener('pointerleave', onPointerUp);
+  }
+
+  if (viewerReset) {
+    viewerReset.addEventListener('click', () => {
+      if (use3D && viewer3D && typeof viewer3D.resetCamera === 'function') {
+        viewer3D.resetCamera();
+        if (tiltInput) tiltInput.value = '0';
+      }
+    });
   }
 
   if (viewerJumps.length) {
