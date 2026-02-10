@@ -67,12 +67,12 @@ function initializeViewer() {
 
     let renderer;
     try {
-      renderer = new WebGLRenderer({ canvas: viewerCanvas, antialias: true, alpha: true });
+      renderer = new WebGLRenderer({ canvas: viewerCanvas, antialias: true, alpha: true, powerPreference: 'low-power' });
     } catch (error) {
       console.warn('3D viewer disabled:', error);
       return null;
     }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 
     const camera = new PerspectiveCamera(35, 1, 0.1, 100);
     camera.position.set(4.2, 1.8, 5.2);
@@ -115,12 +115,14 @@ function initializeViewer() {
           model.position.set(0, -0.2, 0);
           root.add(model);
           group.visible = false;
+          render();
         },
         undefined,
         (error) => {
           console.warn('GLB load failed:', error);
           model = null;
           group.visible = true;
+          render();
         }
       );
     };
@@ -136,12 +138,17 @@ function initializeViewer() {
       };
     };
 
+    const render = () => {
+      renderer.render(scene, camera);
+    };
+
     const setShip = (id) => {
       const colors = palette(id);
       hull.material.color.set(colors.hull);
       deck.material.color.set(colors.deck);
       tower.material.color.set(colors.tower);
       gun.material.color.set(colors.tower);
+      render();
     };
 
     const resize = () => {
@@ -149,19 +156,15 @@ function initializeViewer() {
       renderer.setSize(rect.width, rect.height, false);
       camera.aspect = rect.width / rect.height;
       camera.updateProjectionMatrix();
+      render();
     };
 
     const setRotation = (deg) => {
       root.rotation.y = THREE.MathUtils.degToRad(deg);
-    };
-
-    const animate = () => {
-      renderer.render(scene, camera);
-      requestAnimationFrame(animate);
+      render();
     };
 
     resize();
-    animate();
     window.addEventListener('resize', resize);
 
     const set3DMode = (enabled) => {
@@ -171,7 +174,7 @@ function initializeViewer() {
       group.visible = !enabled;
     };
 
-    return { setShip, setRotation, resize, loadModel, set3DMode };
+    return { setShip, setRotation, resize, loadModel, set3DMode, render };
   };
 
   const viewer3D = createViewer3D();
