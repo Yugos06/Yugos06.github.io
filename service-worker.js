@@ -1,22 +1,22 @@
-// Service Worker - Offline Support & Caching
-const CACHE_NAME = 'wows-fan-v1';
+
+const CACHE_NAME = 'wows-fan-v2';
 const urlsToCache = [
   '/',
   '/index.html',
   '/style.css',
   '/script.js',
   '/manifest.json',
-  '/images/wave.png',
-  '/images/bismarck.png',
-  '/images/hood.png',
-  '/images/iowa.png',
-  '/images/prinz_eugen.png',
-  '/images/richelieu.png',
-  '/images/vladivostok.png',
-  '/images/yamato.png'
+  '/images/wave.webp',
+  '/images/bismarck.webp',
+  '/images/hood.webp',
+  '/images/iowa.webp',
+  '/images/prinz_eugen.webp',
+  '/images/richelieu.webp',
+  '/images/vladivostok.webp',
+  '/images/yamato.webp'
 ];
 
-// Installation event
+
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -29,7 +29,7 @@ self.addEventListener('install', event => {
   self.skipWaiting();
 });
 
-// Activation event
+
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -46,9 +46,9 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Fetch event - Network first, fallback to cache
+
 self.addEventListener('fetch', event => {
-  // Skip non-GET requests
+ 
   if (event.request.method !== 'GET') {
     return;
   }
@@ -56,7 +56,7 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        // Clone response and add to cache
+     
         if (!response || response.status !== 200 || response.type !== 'basic') {
           return response;
         }
@@ -68,7 +68,7 @@ self.addEventListener('fetch', event => {
         return response;
       })
       .catch(() => {
-        // Return cached version if offline
+       
         return caches.match(event.request)
           .then(response => {
             return response || new Response('Offline - content not available');
@@ -77,12 +77,12 @@ self.addEventListener('fetch', event => {
   );
 });
 
-// Background sync (optional)
+
 self.addEventListener('sync', event => {
   if (event.tag === 'sync-visits') {
     event.waitUntil(
-      // Sync logic here if needed
-      Promise.resolve()
+      
+      Promise.resolve() 
     );
   }
 });

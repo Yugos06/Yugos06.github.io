@@ -25,7 +25,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Animations */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -85,7 +85,7 @@ body::after {
   z-index: -1;
 }
 
-/* Light Theme */
+
 html[data-theme="light"] {
   color-scheme: light;
 }
@@ -125,7 +125,7 @@ html[data-theme="light"] .filter-btn.active {
   color: #1d2430;
 }
 
-/* Accessibility */
+
 .skip-link {
   position: absolute;
   left: 12px;
@@ -156,7 +156,7 @@ html[data-theme="light"] .filter-btn.active {
   border: 0;
 }
 
-/* Header & Navigation */
+
 header {
   background-color: var(--panel-strong);
   padding: 20px 0;
@@ -210,7 +210,7 @@ nav {
   outline-offset: 2px;
 }
 
-/* Sections générales */
+
 section {
   padding: 40px 20px;
   margin: 30px auto;
@@ -222,7 +222,7 @@ section {
   backdrop-filter: blur(5px);
 }
 
-/* Typographie */
+
 h1, h2, h3 {
   font-family: 'Cinzel', serif;
   font-weight: 700;
@@ -258,7 +258,7 @@ a:focus {
   outline: none;
 }
 
-/* Hero Section */
+
 .hero-section {
   text-align: center;
   position: relative;
@@ -414,7 +414,7 @@ a:focus {
   outline-offset: 2px;
 }
 
-/* Ship Card Content */
+
 .card-header {
   display: flex;
   justify-content: space-between;
@@ -481,7 +481,7 @@ a:focus {
   outline-offset: 2px;
 }
 
-/* Blog Section */
+
 .blog-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -533,7 +533,7 @@ a:focus {
   text-decoration: underline;
 }
 
-/* Stats Section */
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -560,7 +560,7 @@ a:focus {
   min-height: 200px;
 }
 
-/* Comparison Selector */
+
 .comparison-selector {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -627,7 +627,7 @@ a:focus {
   outline: none;
 }
 
-/* Comparison Table */
+
 .comparison-table-container {
   margin-bottom: 30px;
   overflow-x: auto;
@@ -677,7 +677,7 @@ a:focus {
   border-bottom: none;
 }
 
-/* Search & Filter Section */
+
 .search-section {
   text-align: center;
 }
@@ -745,7 +745,7 @@ a:focus {
   outline-offset: 2px;
 }
 
-/* Focus visible pour l'accessibilité */
+
 *:focus-visible {
   outline: 2px solid #f39c12;
   outline-offset: 2px;
@@ -786,7 +786,7 @@ a:focus {
   text-shadow: none;
 }
 
-/* Footer */
+
 footer {
   text-align: center;
   padding: 20px;
@@ -800,7 +800,7 @@ footer p {
   font-size: 0.9rem;
 }
 
-/* Modal Gallery */
+/
 .modal {
   display: none;
   position: fixed;
@@ -892,7 +892,7 @@ footer p {
   }
 }
 
-/* Responsive Design */
+
 @media (max-width: 1024px) {
   .cards-container {
     grid-template-columns: repeat(2, 1fr);
@@ -1133,7 +1133,7 @@ footer p {
     max-height: 60vh;
   }
 
-  /* Mobile Comparison */
+  
   .comparison-selector {
     grid-template-columns: 1fr;
     gap: 12px;

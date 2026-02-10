@@ -1,16 +1,16 @@
-// ===== Dark Mode =====
+
 function initializeDarkMode() {
   const darkToggle = document.getElementById('dark-toggle');
   const html = document.documentElement;
   
-  // Vérifier les préférences sauvegardées
+  
   const savedTheme = localStorage.getItem('theme') || 'dark';
   if (savedTheme === 'light') {
     html.setAttribute('data-theme', 'light');
     darkToggle.textContent = '☀️';
   }
   
-  // Toggle dark mode
+  
   darkToggle.addEventListener('click', () => {
     const currentTheme = html.getAttribute('data-theme') || 'dark';
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -20,20 +20,20 @@ function initializeDarkMode() {
   });
 }
 
-// ===== Search & Filter =====
+
 function initializeSearch() {
   const searchInput = document.getElementById('search-input');
   const filterButtons = document.querySelectorAll('.filter-btn');
   const resultsCount = document.getElementById('results-count');
   let currentFilter = 'all';
   
-  // Search in real-time
+  
   searchInput.addEventListener('input', () => {
     const searchTerm = searchInput.value.toLowerCase();
     filterCards(searchTerm, currentFilter, resultsCount);
   });
   
-  // Filter buttons
+ 
   filterButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       filterButtons.forEach(b => b.classList.remove('active'));
@@ -55,13 +55,13 @@ function filterCards(searchTerm, country, resultsCount) {
     const shipName = card.querySelector('h3')?.textContent.toLowerCase() || '';
     const shipCountry = card.getAttribute('data-country') || '';
     
-    // Search match
+    
     const nameMatch = shipName.includes(searchTerm);
     
-    // Country match
+    
     const countryMatch = country === 'all' || shipCountry === country;
     
-    // Show/hide card
+    
     const isVisible = nameMatch && countryMatch;
     card.style.display = isVisible ? 'flex' : 'none';
     if (isVisible) visibleCount += 1;
@@ -74,17 +74,17 @@ function filterCards(searchTerm, country, resultsCount) {
   }
 }
 
-// ===== Ship Card Interactions =====
+
 function initializeShipCards() {
   const shipCards = document.querySelectorAll('.ship-card');
   
   shipCards.forEach(card => {
-    // Click to expand/collapse
+    
     card.addEventListener('click', () => {
       card.classList.toggle('active');
     });
     
-    // Keyboard navigation (Enter/Space)
+    
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -92,7 +92,7 @@ function initializeShipCards() {
       }
     });
     
-    // Gallery button
+    
     const galleryBtn = card.querySelector('.gallery-btn');
     if (galleryBtn) {
       galleryBtn.addEventListener('click', (e) => {
@@ -103,7 +103,7 @@ function initializeShipCards() {
   });
 }
 
-// ===== Gallery Modal =====
+
 function initializeGalleryModal() {
   const modal = document.getElementById('gallery-modal');
   const closeBtn = document.querySelector('.close-btn');
@@ -120,7 +120,7 @@ function initializeGalleryModal() {
     }
   });
   
-  // Keyboard navigation
+ 
   document.addEventListener('keydown', (e) => {
     if (modal.classList.contains('active')) {
       if (e.key === 'Escape') closeGallery();
@@ -133,7 +133,7 @@ function initializeGalleryModal() {
   nextBtn.addEventListener('click', nextImage);
 }
 
-// Gallery state management
+
 const galleryState = {
   currentShipImages: [],
   currentImageIndex: 0,
@@ -146,29 +146,29 @@ const galleryState = {
 };
 
 function openGallery(shipId) {
-  // Exemple : 3 images par navire (à adapter selon les images réelles)
+ 
   const shipImages = {
-    'bismarck': ['images/bismarck.png', 'images/wave.png', 'images/bismarck.png'],
-    'yamato': ['images/yamato.png', 'images/wave.png', 'images/yamato.png'],
-    'hood': ['images/hood.png', 'images/wave.png', 'images/hood.png'],
-    'iowa': ['images/iowa.png', 'images/wave.png', 'images/iowa.png'],
-    'richelieu': ['images/richelieu.png', 'images/wave.png', 'images/richelieu.png'],
-    'prinz-eugen': ['images/prinz_eugen.png', 'images/wave.png', 'images/prinz_eugen.png'],
-    'vladivostok': ['images/vladivostok.png', 'images/wave.png', 'images/vladivostok.png'],
-    'prince-of-wales': ['images/prince_of_wales.png', 'images/wave.png', 'images/prince_of_wales.png'],
-    'grober-kurfurst': ['images/grosser_kurfurst.png', 'images/wave.png', 'images/grosser_kurfurst.png'],
-    'de-zeven-provincien': ['images/de_zeven_provincien.png', 'images/wave.png', 'images/de_zeven_provincien.png'],
-    'admiral-scheer': ['images/Admiral-Scheer.png', 'images/wave.png', 'images/Admiral-Scheer.png'],
-    'gascogne': ['images/FNFF-Gasgogne.png', 'images/wave.png', 'images/FNFF-Gasgogne.png'],
-    'shokaku': ['images/ijn-shokaku.png', 'images/wave.png', 'images/ijn-shokaku.png'],
-    'komsomolets': ['images/wowsL-Legends_Komsomolets.png', 'images/wave.png', 'images/wowsL-Legends_Komsomolets.png'],
-    'wave': ['images/wave.png', 'images/wave.png', 'images/wave.png']
+    'bismarck': ['images/bismarck.webp', 'images/wave.webp', 'images/bismarck.webp'],
+    'yamato': ['images/yamato.webp', 'images/wave.webp', 'images/yamato.webp'],
+    'hood': ['images/hood.webp', 'images/wave.webp', 'images/hood.webp'],
+    'iowa': ['images/iowa.webp', 'images/wave.webp', 'images/iowa.webp'],
+    'richelieu': ['images/richelieu.webp', 'images/wave.webp', 'images/richelieu.webp'],
+    'prinz-eugen': ['images/prinz_eugen.webp', 'images/wave.webp', 'images/prinz_eugen.webp'],
+    'vladivostok': ['images/vladivostok.webp', 'images/wave.webp', 'images/vladivostok.webp'],
+    'prince-of-wales': ['images/prince_of_wales.webp', 'images/wave.webp', 'images/prince_of_wales.webp'],
+    'grober-kurfurst': ['images/grosser_kurfurst.webp', 'images/wave.webp', 'images/grosser_kurfurst.webp'],
+    'de-zeven-provincien': ['images/de_zeven_provincien.webp', 'images/wave.webp', 'images/de_zeven_provincien.webp'],
+    'admiral-scheer': ['images/Admiral-Scheer.png', 'images/wave.webp', 'images/Admiral-Scheer.png'],
+    'gascogne': ['images/FNFF-Gasgogne.jpg', 'images/wave.webp', 'images/FNFF-Gasgogne.jpg'],
+    'shokaku': ['images/ijn-shokaku.jpg', 'images/wave.webp', 'images/ijn-shokaku.jpg'],
+    'komsomolets': ['images/wowsL-Legends_Komsomolets.png', 'images/wave.webp', 'images/wowsL-Legends_Komsomolets.png'],
+    'wave': ['images/wave.webp', 'images/wave.webp', 'images/wave.webp']
   };
 
   const fallbackImage = (() => {
     const card = document.getElementById(shipId);
     const img = card?.querySelector('img');
-    return img?.getAttribute('src') || 'images/wave.png';
+    return img?.getAttribute('src') || 'images/wave.webp';
   })();
 
   galleryState.currentShipImages = shipImages[shipId] || [fallbackImage, fallbackImage, fallbackImage];
@@ -202,7 +202,7 @@ function nextImage() {
   }
 }
 
-// ===== Stats Visualization =====
+/
 function initializeStats() {
   const shipCards = document.querySelectorAll('.ship-card');
   const powerChart = document.getElementById('power-chart');
@@ -226,7 +226,7 @@ function initializeStats() {
     shipData.push({ name: shipName, power, armor, speed });
   });
   
-  // Display stats (simple bar chart)
+  
   if (powerChart) displayChart(powerChart, shipData, 'power');
   if (armorChart) displayChart(armorChart, shipData, 'armor');
   if (speedChart) displayChart(speedChart, shipData, 'speed');
@@ -238,7 +238,7 @@ function extractNumber(text) {
 }
 
 function displayChart(chartElement, shipData, statType) {
-  // Créer un canvas si nécessaire
+  
   let canvas = chartElement.querySelector('canvas');
   if (!canvas) {
     canvas = document.createElement('canvas');
@@ -246,7 +246,7 @@ function displayChart(chartElement, shipData, statType) {
     chartElement.appendChild(canvas);
   }
   
-  // Détruire le graphique existant s'il existe
+  
   const chartInstance = Chart.helpers.getChart(canvas);
   if (chartInstance) {
     chartInstance.destroy();
@@ -294,7 +294,7 @@ function displayChart(chartElement, shipData, statType) {
   });
 }
 
-// ===== Smooth Scroll for Navigation =====
+
 function initializeSmoothScroll() {
   const menuLinks = document.querySelectorAll('.menu a');
   
@@ -312,7 +312,7 @@ function initializeSmoothScroll() {
   });
 }
 
-// ===== Scroll Animations =====
+
 function initializeScrollAnimations() {
   const observerOptions = {
     threshold: 0.1,
@@ -333,7 +333,7 @@ function initializeScrollAnimations() {
   });
 }
 
-// ===== Service Worker Registration (PWA) =====
+
 function initializeServiceWorker() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service-worker.js')
@@ -342,7 +342,6 @@ function initializeServiceWorker() {
   }
 }
 
-// ===== Blog Section Enhancement =====
 function initializeBlog() {
   const blogCards = document.querySelectorAll('.blog-card');
   
@@ -358,13 +357,13 @@ function initializeBlog() {
   });
 }
 
-// ===== Ship Comparison =====
+
 function initializeComparison() {
   const shipCards = document.querySelectorAll('.ship-card');
   const shipSelects = document.querySelectorAll('.ship-select');
   const resetBtn = document.getElementById('reset-comparison');
   
-  // Populate ship select dropdowns
+ 
   shipSelects.forEach(select => {
     shipCards.forEach(card => {
       const shipName = card.querySelector('h3').textContent;
@@ -423,7 +422,7 @@ function extractStars(element) {
 function displayComparison(ships) {
   const table = document.getElementById('comparison-table');
   
-  // Update table headers
+  
   for (let i = 1; i <= 3; i++) {
     const header = document.getElementById(`ship-col-${i}`);
     const ship = ships.find(s => s.index === i);
@@ -431,7 +430,7 @@ function displayComparison(ships) {
     header.style.color = ship ? '#f39c12' : '#666';
   }
   
-  // Update table data
+  
   for (let i = 1; i <= 3; i++) {
     const ship = ships.find(s => s.index === i);
     
@@ -453,16 +452,16 @@ function displayComparison(ships) {
       countryElement.textContent = '-';
     }
     
-    // Type
+    
     document.getElementById(`type-${i}`).textContent = ship ? ship.type : '-';
     
-    // Puissance
+    
     document.getElementById(`power-${i}`).textContent = ship && typeof ship.power === 'number' && ship.power > 0 ? '⚡'.repeat(ship.power) : '-';
     
-    // Armure
+    
     document.getElementById(`armor-${i}`).textContent = ship && typeof ship.armor === 'number' && ship.armor > 0 ? '🛡️' + '⚡'.repeat(ship.armor) : '-';
     
-    // Vitesse
+    
     document.getElementById(`speed-${i}`).textContent = ship && typeof ship.speed === 'number' && ship.speed > 0 ? '⚡'.repeat(ship.speed) : '-';
   }
   
@@ -470,7 +469,7 @@ function displayComparison(ships) {
   table.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-// ===== Init All =====
+
 document.addEventListener('DOMContentLoaded', () => {
   console.log('🎮 Initializing World of Warships Fan Site...');
   
@@ -502,7 +501,7 @@ function initializeEmailContact() {
       // Ouvrir un formulaire de contact ou rediriger vers email
       const subject = encodeURIComponent('Contact depuis le site World of Warships');
       const body = encodeURIComponent('Bonjour,\n\nJ\'aimerais te contacter concernant...\n\n');
-      window.location.href = `mailto:yugos@example.com?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:yugos@gmail.com?subject=${subject}&body=${body}`;
     });
   }
 }

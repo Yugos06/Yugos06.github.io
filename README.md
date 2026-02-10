@@ -29,7 +29,7 @@ Site fan moderne, accessible et complet dédié à **World of Warships**, héber
 ├── manifest.json               # Configuration PWA
 ├── service-worker.js           # Cache offline strategy
 ├── service-worker-register.js  # Enregistrement du service worker
-├── images/                     # Assets (7 navires + wave.png)
+├── images/                     # Assets (navires + wave.webp + mix PNG/JPG/WEBP)
 ├── LICENSE                     # MIT License
 └── README.md                   # Cette documentation
 ```
@@ -428,8 +428,8 @@ Guide utilisateur détaillé
 ##  Troubleshooting
 
 ### Images ne chargent pas
-- Vérifier le chemin: `images/[shipname].png`
-- Format PNG (pas JPG)
+- Vérifier le chemin: `images/[shipname].webp` ou `images/[shipname].jpg/.png`
+- Vérifier que l'extension correspond au vrai format du fichier
 - Vérifier la connexion internet
 
 ### Mode sombre ne se sauvegarde pas
