@@ -252,13 +252,13 @@ function initializeViewer() {
       const maxDim = Math.max(size.x, size.y, size.z);
       const fov = camera.fov * (Math.PI / 180);
       const dist = (maxDim / 2) / Math.tan(fov / 2);
-      const offset = 1.15;
+      const offset = 0.92;
       const z = dist * offset;
-      camera.position.set(center.x, center.y + maxDim * 0.2, center.z + z);
+      camera.position.set(center.x, center.y + maxDim * 0.18, center.z + z);
       camera.near = Math.max(0.1, z / 100);
       camera.far = Math.max(200, z * 5);
       camera.updateProjectionMatrix();
-      camera.lookAt(center.x, center.y + maxDim * 0.1, center.z);
+      camera.lookAt(center.x, center.y + maxDim * 0.12, center.z);
       if (!keepRotation) root.rotation.y = 0;
     };
 
