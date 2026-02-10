@@ -33,8 +33,8 @@
       <nav class="main-nav" aria-label="Navigation principale">
         <ul class="menu">
           <li><a href="#accueil">Accueil</a></li>
-          <li><a href="#visualisation">Vue</a></li>
           <li><a href="#navires">Navires</a></li>
+          <li><a href="#navires-3d">Navires 3D</a></li>
           <li><a href="#stats">Stats</a></li>
           <li><a href="#blog">Wiki</a></li>
         </ul>
@@ -57,44 +57,6 @@
           <li>Comparateur interactif</li>
           <li>Galerie immersive</li>
         </ul>
-      </div>
-    </section>
-
-    <section id="visualisation" class="viewer-section">
-      <div class="container">
-        <div class="section-head">
-          <h2>🧭 Visualisation des Navires</h2>
-          <p class="section-subtitle">Observe chaque navire, change d'angle et passe au modèle suivant.</p>
-        </div>
-        <div class="viewer-layout">
-          <div class="viewer-stage" aria-live="polite">
-            <canvas id="viewer-canvas" aria-label="Vue 3D du navire"></canvas>
-            <img id="viewer-image" src="images/bismarck.webp" alt="Bismarck - vue principale" loading="lazy" decoding="async">
-            <div class="viewer-hud">
-              <span id="viewer-name">Bismarck</span>
-              <span id="viewer-type">Cuirassé</span>
-            </div>
-          </div>
-          <div class="viewer-controls">
-            <div class="viewer-actions">
-              <button id="viewer-prev" class="viewer-btn" type="button" aria-label="Navire précédent">◀</button>
-              <button id="viewer-next" class="viewer-btn" type="button" aria-label="Navire suivant">▶</button>
-            </div>
-            <button id="viewer-3d-toggle" class="viewer-btn secondary" type="button">Activer 3D</button>
-            <p id="viewer-3d-status" class="viewer-status" aria-live="polite"></p>
-            <div class="viewer-field">
-              <label for="viewer-select">Changer de navire</label>
-              <select id="viewer-select" class="ship-select">
-                <option value="">-- Choisir un navire --</option>
-              </select>
-            </div>
-            <div class="viewer-field">
-              <label for="viewer-tilt">Angle de vue</label>
-              <input id="viewer-tilt" type="range" min="0" max="2" step="1" value="0">
-            </div>
-            <p id="viewer-desc" class="viewer-desc">Cuirassé allemand célèbre pour sa puissance de feu et sa courte carrière durant la Seconde Guerre mondiale.</p>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -382,22 +344,45 @@
       </div>
     </section>
 
-    <section id="navires-3d" class="ships-3d-section">
+    <section id="navires-3d" class="ships-3d-section viewer-section">
       <div class="container">
         <div class="section-head">
           <h2>Navires 3D</h2>
           <p class="section-subtitle">Modèles interactifs pour une immersion complète.</p>
         </div>
-        <div class="cards-container" aria-label="Liste des navires 3D">
-          <article class="ship-card is-3d-card" data-country="allemagne" data-type="cuirasse" aria-label="Fiche 3D du navire Bismarck">
-            <img src="images/bismarck.webp" alt="Bismarck - aperçu 3D" loading="lazy" decoding="async">
-            <div class="card-header">
-              <h3>Bismarck (3D)</h3>
-              <div class="rating">★★★★★</div>
+        <div class="viewer-layout">
+          <div class="viewer-stage" aria-live="polite">
+            <canvas id="viewer-canvas" aria-label="Vue 3D du navire"></canvas>
+            <img id="viewer-image" src="images/bismarck.webp" alt="Bismarck - vue principale" loading="lazy" decoding="async">
+            <div class="viewer-hud">
+              <span id="viewer-name">Bismarck</span>
+              <span id="viewer-type">Cuirassé</span>
             </div>
-            <p class="ship-desc">Découvre le Bismarck en 3D et observe chaque détail.</p>
-            <button class="gallery-btn viewer-jump" data-ship="bismarck" type="button">Ouvrir la 3D</button>
-          </article>
+          </div>
+          <div class="viewer-controls">
+            <div class="viewer-actions">
+              <button id="viewer-prev" class="viewer-btn" type="button" aria-label="Navire précédent">◀</button>
+              <button id="viewer-next" class="viewer-btn" type="button" aria-label="Navire suivant">▶</button>
+            </div>
+            <button id="viewer-3d-toggle" class="viewer-btn secondary" type="button">Activer 3D</button>
+            <div class="viewer-loader" aria-live="polite">
+              <span id="viewer-3d-status" class="viewer-status"></span>
+              <div class="viewer-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div id="viewer-progress-bar" class="viewer-progress-bar"></div>
+              </div>
+            </div>
+            <div class="viewer-field">
+              <label for="viewer-select">Changer de navire</label>
+              <select id="viewer-select" class="ship-select">
+                <option value="">-- Choisir un navire --</option>
+              </select>
+            </div>
+            <div class="viewer-field">
+              <label for="viewer-tilt">Angle de vue</label>
+              <input id="viewer-tilt" type="range" min="0" max="2" step="1" value="0">
+            </div>
+            <p id="viewer-desc" class="viewer-desc">Cuirassé allemand célèbre pour sa puissance de feu et sa courte carrière durant la Seconde Guerre mondiale.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -560,8 +545,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script type="module" src="three-setup.js"></script>
   <script src="script.js" defer></script>
   <script src="service-worker-register.js" defer></script>
 </body>
