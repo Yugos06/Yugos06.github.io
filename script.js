@@ -33,6 +33,8 @@ function initializeViewer() {
   const prevBtn = document.getElementById('viewer-prev');
   const nextBtn = document.getElementById('viewer-next');
   const tiltInput = document.getElementById('viewer-tilt');
+  const viewer3DToggle = document.getElementById('viewer-3d-toggle');
+  const viewer3DStatus = document.getElementById('viewer-3d-status');
 
   if (!viewerStage || !viewerImage || !viewerSelect) return;
 
@@ -58,6 +60,7 @@ function initializeViewer() {
   let currentIndex = Math.max(0, ships.findIndex(ship => ship.id === 'bismarck'));
   let currentViews = [];
   let use3D = false;
+  let userEnabled3D = false;
 
   const createViewer3D = () => {
     if (!viewerCanvas || !window.THREE) return null;
@@ -72,7 +75,7 @@ function initializeViewer() {
       console.warn('3D viewer disabled:', error);
       return null;
     }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1));
 
     const camera = new PerspectiveCamera(35, 1, 0.1, 100);
     camera.position.set(4.2, 1.8, 5.2);
@@ -105,8 +108,11 @@ function initializeViewer() {
 
     let model = null;
     const loader = THREE.GLTFLoader ? new THREE.GLTFLoader() : null;
-    const loadModel = (url) => {
-      if (!loader || model) return;
+    const loadModel = (url, onDone, onFail) => {
+      if (!loader || model) {
+        if (onDone && model) onDone();
+        return;
+      }
       loader.load(
         url,
         (gltf) => {
@@ -116,6 +122,7 @@ function initializeViewer() {
           root.add(model);
           group.visible = false;
           render();
+          if (onDone) onDone();
         },
         undefined,
         (error) => {
@@ -123,6 +130,7 @@ function initializeViewer() {
           model = null;
           group.visible = true;
           render();
+          if (onFail) onFail(error);
         }
       );
     };
@@ -225,14 +233,11 @@ function initializeViewer() {
     if (viewerType) viewerType.textContent = ship.type;
     if (viewerDesc) viewerDesc.textContent = ship.desc;
     viewerSelect.value = ship.id;
-    use3D = ship.id === 'bismarck' && !!viewer3D;
+    use3D = ship.id === 'bismarck' && !!viewer3D && userEnabled3D;
     viewerStage.classList.toggle('is-3d', use3D);
     setViews(ship.id, ship.image);
     if (viewer3D) {
       viewer3D.setShip(ship.id);
-      if (use3D) {
-        viewer3D.loadModel('bismarck.glb');
-      }
       viewer3D.set3DMode(use3D);
     }
   };
@@ -257,6 +262,51 @@ function initializeViewer() {
   if (tiltInput) {
     tiltInput.addEventListener('input', () => {
       applyAngle(parseInt(tiltInput.value, 10) || 0);
+    });
+  }
+
+  if (viewer3DToggle && viewer3DStatus) {
+    viewer3DToggle.addEventListener('click', () => {
+      const shipId = ships[currentIndex]?.id;
+      if (shipId !== 'bismarck') {
+        viewer3DStatus.textContent = '3D disponible uniquement pour Bismarck.';
+        userEnabled3D = false;
+        use3D = false;
+        viewerStage.classList.remove('is-3d');
+        setViews(shipId, ships[currentIndex]?.image || 'images/wave.webp');
+        if (viewer3D) viewer3D.set3DMode(false);
+        return;
+      }
+
+      if (!viewer3D) {
+        viewer3DStatus.textContent = 'WebGL indisponible sur ce navigateur.';
+        return;
+      }
+
+      userEnabled3D = !userEnabled3D;
+      if (!userEnabled3D) {
+        viewer3DStatus.textContent = '3D désactivée.';
+        use3D = false;
+        viewerStage.classList.remove('is-3d');
+        setViews(shipId, ships[currentIndex]?.image || 'images/wave.webp');
+        viewer3D.set3DMode(false);
+        return;
+      }
+
+      viewer3DStatus.textContent = 'Chargement du modèle 3D...';
+      viewer3D.loadModel('bismarck.glb', () => {
+        use3D = true;
+        viewerStage.classList.add('is-3d');
+        viewer3D.set3DMode(true);
+        viewer3DStatus.textContent = '3D activée. Utilise le slider pour tourner.';
+        setViews(shipId, ships[currentIndex]?.image || 'images/wave.webp');
+      }, () => {
+        userEnabled3D = false;
+        use3D = false;
+        viewerStage.classList.remove('is-3d');
+        viewer3D.set3DMode(false);
+        viewer3DStatus.textContent = 'Échec du chargement 3D. Retour en 2D.';
+      });
     });
   }
 

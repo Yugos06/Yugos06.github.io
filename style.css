@@ -502,11 +502,23 @@ a:focus {
   transition: all 0.2s ease;
 }
 
+.viewer-btn.secondary {
+  background: rgba(41, 182, 246, 0.14);
+  border-color: rgba(41, 182, 246, 0.5);
+  color: #cfeeff;
+}
+
 .viewer-btn:hover,
 .viewer-btn:focus {
   background: rgba(243, 156, 18, 0.3);
   border-color: #f39c12;
   outline: none;
+}
+
+.viewer-btn.secondary:hover,
+.viewer-btn.secondary:focus {
+  background: rgba(41, 182, 246, 0.3);
+  border-color: #29b6f6;
 }
 
 .viewer-field {
@@ -528,6 +540,13 @@ a:focus {
 .viewer-desc {
   color: var(--muted);
   font-size: 0.98rem;
+}
+
+.viewer-status {
+  color: var(--muted);
+  font-size: 0.9rem;
+  min-height: 18px;
+  margin: 0;
 }
 
 .hero-badges {
