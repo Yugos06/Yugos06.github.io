@@ -973,7 +973,6 @@ footer p {
   font-size: 0.9rem;
 }
 
-/
 .modal {
   display: none;
   position: fixed;
@@ -1031,9 +1030,11 @@ footer p {
 }
 
 .gallery-carousel img {
-  max-width: 100%;
-  max-height: 600px;
+  max-width: 75vw;
+  max-height: 70vh;
   border-radius: 8px;
+  object-fit: contain;
+  background: rgba(8, 14, 24, 0.6);
   animation: fadeIn 0.3s ease;
 }
 

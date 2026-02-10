@@ -55,17 +55,44 @@ function initializeViewer() {
   });
 
   let currentIndex = Math.max(0, ships.findIndex(ship => ship.id === 'bismarck'));
+  let currentViews = [];
+
+  const applyAngle = value => {
+    if (!currentViews.length) return;
+    const max = Math.max(0, currentViews.length - 1);
+    const clamped = Math.min(max, Math.max(0, value));
+    viewerImage.src = currentViews[clamped];
+    if (tiltInput) tiltInput.value = clamped;
+    if (max > 0) {
+      const tilt = (clamped / max) * 16 - 8;
+      viewerStage.style.setProperty('--viewer-tilt', `${tilt.toFixed(1)}deg`);
+    } else {
+      viewerStage.style.setProperty('--viewer-tilt', '0deg');
+    }
+  };
+
+  const setViews = (shipId, fallbackImage) => {
+    const views = shipGalleryImages[shipId] || [fallbackImage];
+    currentViews = views.filter(Boolean);
+    if (tiltInput) {
+      tiltInput.min = '0';
+      tiltInput.max = `${Math.max(0, currentViews.length - 1)}`;
+      tiltInput.step = '1';
+      tiltInput.value = '0';
+    }
+    applyAngle(0);
+  };
 
   const renderShip = index => {
     if (!ships.length) return;
     currentIndex = (index + ships.length) % ships.length;
     const ship = ships[currentIndex];
-    viewerImage.src = ship.image;
     viewerImage.alt = `${ship.name} - vue principale`;
     if (viewerName) viewerName.textContent = ship.name;
     if (viewerType) viewerType.textContent = ship.type;
     if (viewerDesc) viewerDesc.textContent = ship.desc;
     viewerSelect.value = ship.id;
+    setViews(ship.id, ship.image);
   };
 
   renderShip(currentIndex);
@@ -87,7 +114,7 @@ function initializeViewer() {
 
   if (tiltInput) {
     tiltInput.addEventListener('input', () => {
-      viewerStage.style.setProperty('--viewer-tilt', `${tiltInput.value}deg`);
+      applyAngle(parseInt(tiltInput.value, 10) || 0);
     });
   }
 
@@ -218,6 +245,24 @@ function initializeGalleryModal() {
   nextBtn.addEventListener('click', nextImage);
 }
 
+const shipGalleryImages = {
+  'bismarck': ['images/bismarck.webp', 'images/wave.webp', 'images/bismarck.webp'],
+  'yamato': ['images/yamato.webp', 'images/wave.webp', 'images/yamato.webp'],
+  'hood': ['images/hood.webp', 'images/wave.webp', 'images/hood.webp'],
+  'iowa': ['images/iowa.webp', 'images/wave.webp', 'images/iowa.webp'],
+  'richelieu': ['images/richelieu.webp', 'images/wave.webp', 'images/richelieu.webp'],
+  'prinz-eugen': ['images/prinz_eugen.webp', 'images/wave.webp', 'images/prinz_eugen.webp'],
+  'vladivostok': ['images/vladivostok.webp', 'images/wave.webp', 'images/vladivostok.webp'],
+  'prince-of-wales': ['images/prince_of_wales.webp', 'images/wave.webp', 'images/prince_of_wales.webp'],
+  'grober-kurfurst': ['images/grosser_kurfurst.webp', 'images/wave.webp', 'images/grosser_kurfurst.webp'],
+  'de-zeven-provincien': ['images/de_zeven_provincien.webp', 'images/wave.webp', 'images/de_zeven_provincien.webp'],
+  'admiral-scheer': ['images/Admiral-Scheer.png', 'images/wave.webp', 'images/Admiral-Scheer.png'],
+  'gascogne': ['images/FNFF-Gasgogne.jpg', 'images/wave.webp', 'images/FNFF-Gasgogne.jpg'],
+  'shokaku': ['images/ijn-shokaku.jpg', 'images/wave.webp', 'images/ijn-shokaku.jpg'],
+  'komsomolets': ['images/wowsL-Legends_Komsomolets.png', 'images/wave.webp', 'images/wowsL-Legends_Komsomolets.png'],
+  'wave': ['images/wave.webp', 'images/wave.webp', 'images/wave.webp']
+};
+
 
 const galleryState = {
   currentShipImages: [],
@@ -231,32 +276,14 @@ const galleryState = {
 };
 
 function openGallery(shipId) {
- 
-  const shipImages = {
-    'bismarck': ['images/bismarck.webp', 'images/wave.webp', 'images/bismarck.webp'],
-    'yamato': ['images/yamato.webp', 'images/wave.webp', 'images/yamato.webp'],
-    'hood': ['images/hood.webp', 'images/wave.webp', 'images/hood.webp'],
-    'iowa': ['images/iowa.webp', 'images/wave.webp', 'images/iowa.webp'],
-    'richelieu': ['images/richelieu.webp', 'images/wave.webp', 'images/richelieu.webp'],
-    'prinz-eugen': ['images/prinz_eugen.webp', 'images/wave.webp', 'images/prinz_eugen.webp'],
-    'vladivostok': ['images/vladivostok.webp', 'images/wave.webp', 'images/vladivostok.webp'],
-    'prince-of-wales': ['images/prince_of_wales.webp', 'images/wave.webp', 'images/prince_of_wales.webp'],
-    'grober-kurfurst': ['images/grosser_kurfurst.webp', 'images/wave.webp', 'images/grosser_kurfurst.webp'],
-    'de-zeven-provincien': ['images/de_zeven_provincien.webp', 'images/wave.webp', 'images/de_zeven_provincien.webp'],
-    'admiral-scheer': ['images/Admiral-Scheer.png', 'images/wave.webp', 'images/Admiral-Scheer.png'],
-    'gascogne': ['images/FNFF-Gasgogne.jpg', 'images/wave.webp', 'images/FNFF-Gasgogne.jpg'],
-    'shokaku': ['images/ijn-shokaku.jpg', 'images/wave.webp', 'images/ijn-shokaku.jpg'],
-    'komsomolets': ['images/wowsL-Legends_Komsomolets.png', 'images/wave.webp', 'images/wowsL-Legends_Komsomolets.png'],
-    'wave': ['images/wave.webp', 'images/wave.webp', 'images/wave.webp']
-  };
-
   const fallbackImage = (() => {
     const card = document.getElementById(shipId);
     const img = card?.querySelector('img');
     return img?.getAttribute('src') || 'images/wave.webp';
   })();
 
-  galleryState.currentShipImages = shipImages[shipId] || [fallbackImage, fallbackImage, fallbackImage];
+  const images = shipGalleryImages[shipId] || [fallbackImage, fallbackImage, fallbackImage];
+  galleryState.currentShipImages = images;
   galleryState.currentImageIndex = 0;
   
   updateGalleryImage();
@@ -287,7 +314,6 @@ function nextImage() {
   }
 }
 
-/
 function initializeStats() {
   const shipCards = document.querySelectorAll('.ship-card');
   const powerChart = document.getElementById('power-chart');
