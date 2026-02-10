@@ -36,6 +36,8 @@ function initializeViewer() {
   const viewer3DToggle = document.getElementById('viewer-3d-toggle');
   const viewer3DStatus = document.getElementById('viewer-3d-status');
   const viewerJumps = document.querySelectorAll('.viewer-jump');
+  const viewerProgress = document.querySelector('.viewer-progress');
+  const viewerProgressBar = document.getElementById('viewer-progress-bar');
 
   if (!viewerStage || !viewerImage || !viewerSelect) return;
 
@@ -63,7 +65,7 @@ function initializeViewer() {
   let use3D = false;
   let userEnabled3D = false;
   let loading3D = false;
-  const glbUrl = 'bismarck.glb?v=1';
+  const glbUrl = 'bismarck.glb?v=2';
 
   const hasWebGLSupport = () => {
     try {
@@ -300,14 +302,16 @@ function initializeViewer() {
     if (!hasWebGLSupport()) {
       viewer3DToggle.disabled = true;
       viewer3DToggle.textContent = '3D indisponible';
-      viewer3DStatus.textContent = 'WebGL indisponible sur ce navigateur.';
+      if (viewer3DStatus) viewer3DStatus.textContent = 'WebGL indisponible sur ce navigateur.';
+      if (viewerProgress) viewerProgress.style.display = 'none';
       return;
     }
 
     viewer3DToggle.addEventListener('click', () => {
       const shipId = ships[currentIndex]?.id;
       if (shipId !== 'bismarck') {
-        viewer3DStatus.textContent = '3D disponible uniquement pour Bismarck.';
+        if (viewer3DStatus) viewer3DStatus.textContent = '3D disponible uniquement pour Bismarck.';
+        if (viewerProgressBar) viewerProgressBar.style.width = '0%';
         userEnabled3D = false;
         use3D = false;
         viewerStage.classList.remove('is-3d');
@@ -317,13 +321,14 @@ function initializeViewer() {
       }
 
       if (!viewer3D) {
-        viewer3DStatus.textContent = 'WebGL indisponible sur ce navigateur.';
+        if (viewer3DStatus) viewer3DStatus.textContent = 'WebGL indisponible sur ce navigateur.';
         return;
       }
 
       userEnabled3D = !userEnabled3D;
       if (!userEnabled3D) {
-        viewer3DStatus.textContent = '3D désactivée.';
+        if (viewer3DStatus) viewer3DStatus.textContent = '3D désactivée.';
+        if (viewerProgressBar) viewerProgressBar.style.width = '0%';
         use3D = false;
         viewerStage.classList.remove('is-3d');
         setViews(shipId, ships[currentIndex]?.image || 'images/wave.webp');
@@ -331,21 +336,25 @@ function initializeViewer() {
         return;
       }
 
-      viewer3DStatus.textContent = 'Chargement du modèle 3D...';
+      if (viewer3DStatus) viewer3DStatus.textContent = 'Chargement du modèle 3D...';
+      if (viewerProgressBar) viewerProgressBar.style.width = '0%';
       viewer3D.loadModel(glbUrl, () => {
         use3D = true;
         viewerStage.classList.add('is-3d');
         viewer3D.set3DMode(true);
-        viewer3DStatus.textContent = '3D activée. Utilise le slider pour tourner.';
+        if (viewer3DStatus) viewer3DStatus.textContent = '3D activée. Utilise le slider pour tourner.';
+        if (viewerProgressBar) viewerProgressBar.style.width = '100%';
         setViews(shipId, ships[currentIndex]?.image || 'images/wave.webp');
       }, () => {
         userEnabled3D = false;
         use3D = false;
         viewerStage.classList.remove('is-3d');
         viewer3D.set3DMode(false);
-        viewer3DStatus.textContent = 'Échec du chargement 3D. Retour en 2D.';
+        if (viewer3DStatus) viewer3DStatus.textContent = 'Échec du chargement 3D. Retour en 2D.';
+        if (viewerProgressBar) viewerProgressBar.style.width = '0%';
       }, (percent) => {
-        viewer3DStatus.textContent = `Chargement du modèle 3D... ${percent}%`;
+        if (viewer3DStatus) viewer3DStatus.textContent = `Chargement du modèle 3D... ${percent}%`;
+        if (viewerProgressBar) viewerProgressBar.style.width = `${percent}%`;
       });
     });
   }
@@ -357,7 +366,7 @@ function initializeViewer() {
         const index = ships.findIndex(ship => ship.id === shipId);
         if (index >= 0) {
           renderShip(index);
-          document.getElementById('visualisation')?.scrollIntoView({ behavior: 'smooth' });
+          document.getElementById('navires-3d')?.scrollIntoView({ behavior: 'smooth' });
           if (viewer3DToggle && !viewer3DToggle.disabled) {
             viewer3DToggle.click();
           }
@@ -597,6 +606,7 @@ function extractNumber(text) {
 }
 
 function displayChart(chartElement, shipData, statType) {
+  if (typeof Chart === 'undefined') return;
   
   let canvas = chartElement.querySelector('canvas');
   if (!canvas) {
@@ -606,7 +616,7 @@ function displayChart(chartElement, shipData, statType) {
   }
   
   
-  const chartInstance = Chart.helpers.getChart(canvas);
+  const chartInstance = typeof Chart.getChart === 'function' ? Chart.getChart(canvas) : null;
   if (chartInstance) {
     chartInstance.destroy();
   }
