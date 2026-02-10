@@ -35,6 +35,7 @@ function initializeViewer() {
   const tiltInput = document.getElementById('viewer-tilt');
   const viewer3DToggle = document.getElementById('viewer-3d-toggle');
   const viewer3DStatus = document.getElementById('viewer-3d-status');
+  const viewerJumps = document.querySelectorAll('.viewer-jump');
 
   if (!viewerStage || !viewerImage || !viewerSelect) return;
 
@@ -61,6 +62,8 @@ function initializeViewer() {
   let currentViews = [];
   let use3D = false;
   let userEnabled3D = false;
+  let loading3D = false;
+  const glbUrl = 'bismarck.glb?v=1';
 
   const hasWebGLSupport = () => {
     try {
@@ -117,28 +120,47 @@ function initializeViewer() {
 
     let model = null;
     const loader = THREE.GLTFLoader ? new THREE.GLTFLoader() : null;
-    const loadModel = (url, onDone, onFail) => {
+    const loadModel = (url, onDone, onFail, onProgress) => {
       if (!loader || model) {
         if (onDone && model) onDone();
         return;
       }
+      if (loading3D) return;
+      loading3D = true;
+      let timedOut = false;
+      const timeoutId = setTimeout(() => {
+        timedOut = true;
+        loading3D = false;
+        if (onFail) onFail(new Error('Timeout'));
+      }, 20000);
       loader.load(
         url,
         (gltf) => {
+          if (timedOut) return;
+          clearTimeout(timeoutId);
           model = gltf.scene;
           model.scale.set(1.2, 1.2, 1.2);
           model.position.set(0, -0.2, 0);
           root.add(model);
           group.visible = false;
           render();
+          loading3D = false;
           if (onDone) onDone();
         },
-        undefined,
+        (xhr) => {
+          if (onProgress && xhr && xhr.lengthComputable) {
+            const percent = Math.round((xhr.loaded / xhr.total) * 100);
+            onProgress(percent);
+          }
+        },
         (error) => {
+          if (timedOut) return;
+          clearTimeout(timeoutId);
           console.warn('GLB load failed:', error);
           model = null;
           group.visible = true;
           render();
+          loading3D = false;
           if (onFail) onFail(error);
         }
       );
@@ -310,7 +332,7 @@ function initializeViewer() {
       }
 
       viewer3DStatus.textContent = 'Chargement du modèle 3D...';
-      viewer3D.loadModel('bismarck.glb', () => {
+      viewer3D.loadModel(glbUrl, () => {
         use3D = true;
         viewerStage.classList.add('is-3d');
         viewer3D.set3DMode(true);
@@ -322,6 +344,24 @@ function initializeViewer() {
         viewerStage.classList.remove('is-3d');
         viewer3D.set3DMode(false);
         viewer3DStatus.textContent = 'Échec du chargement 3D. Retour en 2D.';
+      }, (percent) => {
+        viewer3DStatus.textContent = `Chargement du modèle 3D... ${percent}%`;
+      });
+    });
+  }
+
+  if (viewerJumps.length) {
+    viewerJumps.forEach(button => {
+      button.addEventListener('click', () => {
+        const shipId = button.getAttribute('data-ship');
+        const index = ships.findIndex(ship => ship.id === shipId);
+        if (index >= 0) {
+          renderShip(index);
+          document.getElementById('visualisation')?.scrollIntoView({ behavior: 'smooth' });
+          if (viewer3DToggle && !viewer3DToggle.disabled) {
+            viewer3DToggle.click();
+          }
+        }
       });
     });
   }
