@@ -57,6 +57,7 @@ function initializeViewer() {
 
   let currentIndex = Math.max(0, ships.findIndex(ship => ship.id === 'bismarck'));
   let currentViews = [];
+  let use3D = false;
 
   const createViewer3D = () => {
     if (!viewerCanvas || !window.THREE) return null;
@@ -81,8 +82,10 @@ function initializeViewer() {
     keyLight.position.set(6, 8, 4);
     scene.add(ambient, keyLight);
 
+    const root = new Group();
     const group = new Group();
-    scene.add(group);
+    root.add(group);
+    scene.add(root);
 
     const hullMaterial = new MeshStandardMaterial({ color: 0x2c3e50, roughness: 0.6, metalness: 0.2 });
     const deckMaterial = new MeshStandardMaterial({ color: 0x6d6f6f, roughness: 0.8, metalness: 0.1 });
@@ -99,6 +102,28 @@ function initializeViewer() {
     gun.position.set(1.2, 0.5, 0.15);
 
     group.add(hull, deck, tower, gun);
+
+    let model = null;
+    const loader = THREE.GLTFLoader ? new THREE.GLTFLoader() : null;
+    const loadModel = (url) => {
+      if (!loader || model) return;
+      loader.load(
+        url,
+        (gltf) => {
+          model = gltf.scene;
+          model.scale.set(1.2, 1.2, 1.2);
+          model.position.set(0, -0.2, 0);
+          root.add(model);
+          group.visible = false;
+        },
+        undefined,
+        (error) => {
+          console.warn('GLB load failed:', error);
+          model = null;
+          group.visible = true;
+        }
+      );
+    };
 
     const palette = (id) => {
       let hash = 0;
@@ -127,7 +152,7 @@ function initializeViewer() {
     };
 
     const setRotation = (deg) => {
-      group.rotation.y = THREE.MathUtils.degToRad(deg);
+      root.rotation.y = THREE.MathUtils.degToRad(deg);
     };
 
     const animate = () => {
@@ -139,16 +164,20 @@ function initializeViewer() {
     animate();
     window.addEventListener('resize', resize);
 
-    return { setShip, setRotation, resize };
+    const set3DMode = (enabled) => {
+      if (model) {
+        model.visible = enabled;
+      }
+      group.visible = !enabled;
+    };
+
+    return { setShip, setRotation, resize, loadModel, set3DMode };
   };
 
   const viewer3D = createViewer3D();
-  if (viewer3D) {
-    viewerStage.classList.add('is-3d');
-  }
 
   const applyAngle = value => {
-    if (viewer3D) {
+    if (viewer3D && use3D) {
       viewer3D.setRotation(value);
       return;
     }
@@ -169,7 +198,7 @@ function initializeViewer() {
     const views = shipGalleryImages[shipId] || [fallbackImage];
     currentViews = views.filter(Boolean);
     if (tiltInput) {
-      if (viewer3D) {
+      if (viewer3D && use3D) {
         tiltInput.min = '-45';
         tiltInput.max = '45';
         tiltInput.step = '1';
@@ -193,8 +222,16 @@ function initializeViewer() {
     if (viewerType) viewerType.textContent = ship.type;
     if (viewerDesc) viewerDesc.textContent = ship.desc;
     viewerSelect.value = ship.id;
+    use3D = ship.id === 'bismarck' && !!viewer3D;
+    viewerStage.classList.toggle('is-3d', use3D);
     setViews(ship.id, ship.image);
-    if (viewer3D) viewer3D.setShip(ship.id);
+    if (viewer3D) {
+      viewer3D.setShip(ship.id);
+      if (use3D) {
+        viewer3D.loadModel('bismarck.glb');
+      }
+      viewer3D.set3DMode(use3D);
+    }
   };
 
   renderShip(currentIndex);
