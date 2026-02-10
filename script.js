@@ -97,8 +97,8 @@ function initializeViewer() {
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1));
 
-    const camera = new PerspectiveCamera(38, 1, 0.1, 100);
-    const defaultCamera = { x: 2.6, y: 1.9, z: 3.9, lookY: 0.6 };
+    const camera = new PerspectiveCamera(38, 1, 0.1, 200);
+    const defaultCamera = { x: 0, y: 1.2, z: 6.2, lookY: 0.8 };
     camera.position.set(defaultCamera.x, defaultCamera.y, defaultCamera.z);
     camera.lookAt(0, defaultCamera.lookY, 0);
 
@@ -155,7 +155,6 @@ function initializeViewer() {
           clearTimeout(timeoutId);
           model = gltf.scene;
           model.scale.set(1, 1, 1);
-          
           const box = new Box3().setFromObject(model);
           const size = new Vector3();
           const center = new Vector3();
@@ -164,13 +163,14 @@ function initializeViewer() {
           model.position.sub(center);
          
           const maxDim = Math.max(size.x, size.y, size.z);
-          const scale = maxDim > 0 ? 4.2 / maxDim : 1;
+          const scale = maxDim > 0 ? 3.8 / maxDim : 1;
           model.scale.set(scale, scale, scale);
         
           const boxAfter = new Box3().setFromObject(model);
           model.position.y += -boxAfter.min.y + 0.05;
           root.add(model);
           group.visible = false;
+          fitCameraToObject(model);
           render();
           loading3D = false;
           if (onDone) onDone();
@@ -223,6 +223,7 @@ function initializeViewer() {
       renderer.setSize(rect.width, rect.height, false);
       camera.aspect = rect.width / rect.height;
       camera.updateProjectionMatrix();
+      if (model) fitCameraToObject(model, true);
       render();
     };
 
@@ -242,14 +243,37 @@ function initializeViewer() {
       group.visible = !enabled;
     };
 
+    const fitCameraToObject = (object3D, keepRotation = false) => {
+      const box = new Box3().setFromObject(object3D);
+      const size = new Vector3();
+      const center = new Vector3();
+      box.getSize(size);
+      box.getCenter(center);
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const fov = camera.fov * (Math.PI / 180);
+      const dist = (maxDim / 2) / Math.tan(fov / 2);
+      const offset = 1.15;
+      const z = dist * offset;
+      camera.position.set(center.x, center.y + maxDim * 0.2, center.z + z);
+      camera.near = Math.max(0.1, z / 100);
+      camera.far = Math.max(200, z * 5);
+      camera.updateProjectionMatrix();
+      camera.lookAt(center.x, center.y + maxDim * 0.1, center.z);
+      if (!keepRotation) root.rotation.y = 0;
+    };
+
     const resetCamera = () => {
-      camera.position.set(defaultCamera.x, defaultCamera.y, defaultCamera.z);
-      camera.lookAt(0, defaultCamera.lookY, 0);
+      if (model) {
+        fitCameraToObject(model);
+      } else {
+        camera.position.set(defaultCamera.x, defaultCamera.y, defaultCamera.z);
+        camera.lookAt(0, defaultCamera.lookY, 0);
+      }
       root.rotation.y = 0;
       render();
     };
 
-    return { setShip, setRotation, resize, loadModel, set3DMode, render, resetCamera };
+    return { setShip, setRotation, resize, loadModel, set3DMode, render, resetCamera, fitCameraToObject };
   };
 
   const viewer3D = createViewer3D();
