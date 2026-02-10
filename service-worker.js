@@ -1,11 +1,14 @@
 
-const CACHE_NAME = 'wows-fan-v5';
+const CACHE_NAME = 'wows-fan-v6';
 const urlsToCache = [
   '/',
   '/index.html',
   '/style.css',
   '/script.js',
   '/manifest.json',
+  '/images/icon-192.png',
+  '/images/icon-512.png',
+  '/images/icon-192-maskable.png',
   '/images/wave.webp',
   '/images/bismarck.webp',
   '/images/hood.webp',

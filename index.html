@@ -17,6 +17,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="World of Warships - Yugos">
   <meta name="twitter:description" content="Guide complet des navires World of Warships">
+  <link rel="icon" type="image/png" href="images/icon-192.png">
   <link rel="manifest" href="manifest.json">
   <title>World of Warships - Yugos</title>
   <link rel="stylesheet" href="style.css">
@@ -545,6 +546,14 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
   <script type="module" src="three-setup.js"></script>
   <script src="script.js" defer></script>
   <script src="service-worker-register.js" defer></script>
