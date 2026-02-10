@@ -82,7 +82,7 @@ function initializeViewer() {
 
   const createViewer3D = () => {
     if (!viewerCanvas || !window.THREE_LIB) return null;
-    const { THREE, GLTFLoader } = window.THREE_LIB;
+    const { THREE, GLTFLoader, DRACOLoader } = window.THREE_LIB;
     const { Scene, PerspectiveCamera, WebGLRenderer, Color, AmbientLight, DirectionalLight, Group, Mesh, MeshStandardMaterial, BoxGeometry, CylinderGeometry } = THREE;
     const scene = new Scene();
     scene.background = new Color(0x0c141f);
@@ -126,7 +126,12 @@ function initializeViewer() {
     group.add(hull, deck, tower, gun);
 
     let model = null;
-    const loader = GLTFLoader ? new GLTFLoader() : null;
+    let loader = GLTFLoader ? new GLTFLoader() : null;
+    if (loader && DRACOLoader) {
+      const dracoLoader = new DRACOLoader();
+      dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/libs/draco/');
+      loader.setDRACOLoader(dracoLoader);
+    }
     const loadModel = (url, onDone, onFail, onProgress) => {
       if (!loader || model) {
         if (onDone && model) onDone();
