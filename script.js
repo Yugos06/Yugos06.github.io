@@ -83,7 +83,7 @@ function initializeViewer() {
   const createViewer3D = () => {
     if (!viewerCanvas || !window.THREE_LIB) return null;
     const { THREE, GLTFLoader, DRACOLoader } = window.THREE_LIB;
-    const { Scene, PerspectiveCamera, WebGLRenderer, Color, AmbientLight, DirectionalLight, Group, Mesh, MeshStandardMaterial, BoxGeometry, CylinderGeometry } = THREE;
+    const { Scene, PerspectiveCamera, WebGLRenderer, Color, AmbientLight, DirectionalLight, Group, Mesh, MeshStandardMaterial, BoxGeometry, CylinderGeometry, Box3, Vector3 } = THREE;
     const scene = new Scene();
     scene.background = new Color(0x0c141f);
 
@@ -97,7 +97,7 @@ function initializeViewer() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1));
 
     const camera = new PerspectiveCamera(35, 1, 0.1, 100);
-    camera.position.set(4.2, 1.8, 5.2);
+    camera.position.set(3.8, 2.1, 5.4);
 
     const ambient = new AmbientLight(0xffffff, 0.8);
     const keyLight = new DirectionalLight(0xffffff, 0.9);
@@ -151,8 +151,21 @@ function initializeViewer() {
           if (timedOut) return;
           clearTimeout(timeoutId);
           model = gltf.scene;
-          model.scale.set(1.2, 1.2, 1.2);
-          model.position.set(0, -0.2, 0);
+          model.scale.set(1, 1, 1);
+          // Center model and place it on a virtual "deck"
+          const box = new Box3().setFromObject(model);
+          const size = new Vector3();
+          const center = new Vector3();
+          box.getSize(size);
+          box.getCenter(center);
+          model.position.sub(center);
+          // Lift model so its lowest point sits at y = 0
+          const boxAfter = new Box3().setFromObject(model);
+          model.position.y += -boxAfter.min.y;
+          // Normalize size to fit viewer
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const scale = maxDim > 0 ? 3.2 / maxDim : 1;
+          model.scale.set(scale, scale, scale);
           root.add(model);
           group.visible = false;
           render();
@@ -229,6 +242,9 @@ function initializeViewer() {
   };
 
   const viewer3D = createViewer3D();
+  let dragActive = false;
+  let dragStartX = 0;
+  let dragStartRotation = 0;
 
   const applyAngle = value => {
     if (viewer3D && use3D) {
@@ -367,6 +383,35 @@ function initializeViewer() {
         if (viewerProgressBar) viewerProgressBar.style.width = `${percent}%`;
       });
     });
+  }
+
+  if (viewerStage) {
+    const onPointerDown = (event) => {
+      if (!use3D) return;
+      dragActive = true;
+      dragStartX = event.clientX;
+      dragStartRotation = parseFloat(tiltInput?.value || '0');
+      viewerStage.setPointerCapture?.(event.pointerId);
+    };
+
+    const onPointerMove = (event) => {
+      if (!use3D || !dragActive) return;
+      const delta = event.clientX - dragStartX;
+      const next = Math.max(-45, Math.min(45, dragStartRotation + delta * 0.2));
+      if (tiltInput) tiltInput.value = `${Math.round(next)}`;
+      applyAngle(next);
+    };
+
+    const onPointerUp = (event) => {
+      if (!dragActive) return;
+      dragActive = false;
+      viewerStage.releasePointerCapture?.(event.pointerId);
+    };
+
+    viewerStage.addEventListener('pointerdown', onPointerDown);
+    viewerStage.addEventListener('pointermove', onPointerMove);
+    viewerStage.addEventListener('pointerup', onPointerUp);
+    viewerStage.addEventListener('pointerleave', onPointerUp);
   }
 
   if (viewerJumps.length) {
