@@ -25,6 +25,7 @@ function initializeDarkMode() {
 function initializeViewer() {
   const viewerStage = document.querySelector('.viewer-stage');
   const viewerImage = document.getElementById('viewer-image');
+  const viewerCanvas = document.getElementById('viewer-canvas');
   const viewerName = document.getElementById('viewer-name');
   const viewerType = document.getElementById('viewer-type');
   const viewerDesc = document.getElementById('viewer-desc');
@@ -57,7 +58,100 @@ function initializeViewer() {
   let currentIndex = Math.max(0, ships.findIndex(ship => ship.id === 'bismarck'));
   let currentViews = [];
 
+  const createViewer3D = () => {
+    if (!viewerCanvas || !window.THREE) return null;
+    const { Scene, PerspectiveCamera, WebGLRenderer, Color, AmbientLight, DirectionalLight, Group, Mesh, MeshStandardMaterial, BoxGeometry, CylinderGeometry } = THREE;
+    const scene = new Scene();
+    scene.background = new Color(0x0c141f);
+
+    let renderer;
+    try {
+      renderer = new WebGLRenderer({ canvas: viewerCanvas, antialias: true, alpha: true });
+    } catch (error) {
+      console.warn('3D viewer disabled:', error);
+      return null;
+    }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+    const camera = new PerspectiveCamera(35, 1, 0.1, 100);
+    camera.position.set(4.2, 1.8, 5.2);
+
+    const ambient = new AmbientLight(0xffffff, 0.8);
+    const keyLight = new DirectionalLight(0xffffff, 0.9);
+    keyLight.position.set(6, 8, 4);
+    scene.add(ambient, keyLight);
+
+    const group = new Group();
+    scene.add(group);
+
+    const hullMaterial = new MeshStandardMaterial({ color: 0x2c3e50, roughness: 0.6, metalness: 0.2 });
+    const deckMaterial = new MeshStandardMaterial({ color: 0x6d6f6f, roughness: 0.8, metalness: 0.1 });
+    const towerMaterial = new MeshStandardMaterial({ color: 0xaeb4bf, roughness: 0.4, metalness: 0.4 });
+
+    const hull = new Mesh(new BoxGeometry(4.2, 0.45, 1.3), hullMaterial);
+    hull.position.y = -0.1;
+    const deck = new Mesh(new BoxGeometry(3.2, 0.25, 1.0), deckMaterial);
+    deck.position.y = 0.25;
+    const tower = new Mesh(new BoxGeometry(0.6, 0.5, 0.6), towerMaterial);
+    tower.position.set(-0.2, 0.6, 0.1);
+    const gun = new Mesh(new CylinderGeometry(0.05, 0.05, 1.2, 16), towerMaterial);
+    gun.rotation.z = Math.PI / 2;
+    gun.position.set(1.2, 0.5, 0.15);
+
+    group.add(hull, deck, tower, gun);
+
+    const palette = (id) => {
+      let hash = 0;
+      for (let i = 0; i < id.length; i++) hash = id.charCodeAt(i) + ((hash << 5) - hash);
+      const hue = Math.abs(hash) % 360;
+      return {
+        hull: `hsl(${hue}, 24%, 26%)`,
+        deck: `hsl(${hue}, 12%, 56%)`,
+        tower: `hsl(${hue}, 18%, 70%)`
+      };
+    };
+
+    const setShip = (id) => {
+      const colors = palette(id);
+      hull.material.color.set(colors.hull);
+      deck.material.color.set(colors.deck);
+      tower.material.color.set(colors.tower);
+      gun.material.color.set(colors.tower);
+    };
+
+    const resize = () => {
+      const rect = viewerStage.getBoundingClientRect();
+      renderer.setSize(rect.width, rect.height, false);
+      camera.aspect = rect.width / rect.height;
+      camera.updateProjectionMatrix();
+    };
+
+    const setRotation = (deg) => {
+      group.rotation.y = THREE.MathUtils.degToRad(deg);
+    };
+
+    const animate = () => {
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    };
+
+    resize();
+    animate();
+    window.addEventListener('resize', resize);
+
+    return { setShip, setRotation, resize };
+  };
+
+  const viewer3D = createViewer3D();
+  if (viewer3D) {
+    viewerStage.classList.add('is-3d');
+  }
+
   const applyAngle = value => {
+    if (viewer3D) {
+      viewer3D.setRotation(value);
+      return;
+    }
     if (!currentViews.length) return;
     const max = Math.max(0, currentViews.length - 1);
     const clamped = Math.min(max, Math.max(0, value));
@@ -75,10 +169,17 @@ function initializeViewer() {
     const views = shipGalleryImages[shipId] || [fallbackImage];
     currentViews = views.filter(Boolean);
     if (tiltInput) {
-      tiltInput.min = '0';
-      tiltInput.max = `${Math.max(0, currentViews.length - 1)}`;
-      tiltInput.step = '1';
-      tiltInput.value = '0';
+      if (viewer3D) {
+        tiltInput.min = '-45';
+        tiltInput.max = '45';
+        tiltInput.step = '1';
+        tiltInput.value = '0';
+      } else {
+        tiltInput.min = '0';
+        tiltInput.max = `${Math.max(0, currentViews.length - 1)}`;
+        tiltInput.step = '1';
+        tiltInput.value = '0';
+      }
     }
     applyAngle(0);
   };
@@ -93,6 +194,7 @@ function initializeViewer() {
     if (viewerDesc) viewerDesc.textContent = ship.desc;
     viewerSelect.value = ship.id;
     setViews(ship.id, ship.image);
+    if (viewer3D) viewer3D.setShip(ship.id);
   };
 
   renderShip(currentIndex);

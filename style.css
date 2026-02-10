@@ -430,13 +430,28 @@ a:focus {
   pointer-events: none;
 }
 
-.viewer-stage img {
+.viewer-stage img,
+.viewer-stage canvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 0;
+}
+
+.viewer-stage img {
   object-fit: cover;
   transform: scale(1.02) rotate(var(--viewer-tilt));
   transition: transform 0.4s ease, filter 0.4s ease;
   filter: saturate(1.05) contrast(1.05);
+}
+
+.viewer-stage canvas {
+  display: block;
+}
+
+.viewer-stage.is-3d img {
+  display: none;
 }
 
 .viewer-hud {
@@ -451,6 +466,7 @@ a:focus {
   background: rgba(10, 16, 26, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.08);
   font-weight: 700;
+  z-index: 2;
 }
 
 .viewer-hud span:last-child {

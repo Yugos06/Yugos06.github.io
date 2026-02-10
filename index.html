@@ -68,6 +68,7 @@
         </div>
         <div class="viewer-layout">
           <div class="viewer-stage" aria-live="polite">
+            <canvas id="viewer-canvas" aria-label="Vue 3D du navire"></canvas>
             <img id="viewer-image" src="images/bismarck.webp" alt="Bismarck - vue principale" loading="lazy" decoding="async">
             <div class="viewer-hud">
               <span id="viewer-name">Bismarck</span>
@@ -537,6 +538,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
   <script src="script.js" defer></script>
   <script src="service-worker-register.js" defer></script>
 </body>
