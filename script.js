@@ -77,11 +77,12 @@ function initializeViewer() {
   };
 
   const hasThreeSupport = () => {
-    return hasWebGLSupport() && !!window.THREE && !!window.THREE.GLTFLoader;
+    return hasWebGLSupport() && !!window.THREE_LIB && !!window.THREE_LIB.THREE && !!window.THREE_LIB.GLTFLoader;
   };
 
   const createViewer3D = () => {
-    if (!viewerCanvas || !window.THREE) return null;
+    if (!viewerCanvas || !window.THREE_LIB) return null;
+    const { THREE, GLTFLoader } = window.THREE_LIB;
     const { Scene, PerspectiveCamera, WebGLRenderer, Color, AmbientLight, DirectionalLight, Group, Mesh, MeshStandardMaterial, BoxGeometry, CylinderGeometry } = THREE;
     const scene = new Scene();
     scene.background = new Color(0x0c141f);
@@ -125,7 +126,7 @@ function initializeViewer() {
     group.add(hull, deck, tower, gun);
 
     let model = null;
-    const loader = THREE.GLTFLoader ? new THREE.GLTFLoader() : null;
+    const loader = GLTFLoader ? new GLTFLoader() : null;
     const loadModel = (url, onDone, onFail, onProgress) => {
       if (!loader || model) {
         if (onDone && model) onDone();
