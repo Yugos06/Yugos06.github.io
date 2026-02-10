@@ -24,27 +24,30 @@
 
 <body>
   <a class="skip-link" href="#main-content">Aller au contenu</a>
-  <header>
-    <div class="header-top">
-      <h1>⚓ World of Warships</h1>
-      <button id="dark-toggle" class="dark-toggle" aria-label="Basculer le mode sombre" title="Dark Mode">🌙</button>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-top">
+        <h1>⚓ World of Warships</h1>
+        <button id="dark-toggle" class="dark-toggle" aria-label="Basculer le mode sombre" title="Dark Mode" type="button">🌙</button>
+      </div>
+      <nav class="main-nav" aria-label="Navigation principale">
+        <ul class="menu">
+          <li><a href="#accueil">Accueil</a></li>
+          <li><a href="#visualisation">Vue</a></li>
+          <li><a href="#navires">Navires</a></li>
+          <li><a href="#stats">Stats</a></li>
+          <li><a href="#blog">Wiki</a></li>
+        </ul>
+      </nav>
     </div>
-    <nav aria-label="Navigation principale">
-      <ul class="menu">
-        <li><a href="#accueil">Accueil</a></li>
-        <li><a href="#navires">Navires</a></li>
-        <li><a href="#stats">Stats</a></li>
-        <li><a href="#blog">Wiki</a></li>
-      </ul>
-    </nav>
   </header>
 
   <main id="main-content">
     <section id="accueil" class="hero-section">
-      <div class="hero-content">
+      <div class="container hero-content">
         <p class="hero-kicker">Guide fan & stratégie navale</p>
         <h2>Bienvenue Commandant !</h2>
-        <p>Explore les navires les plus puissants de World of Warships.</p>
+        <p class="hero-lead">Explore les navires les plus puissants de World of Warships.</p>
         <div class="hero-actions">
           <a class="cta-btn primary" href="#navires">Voir les navires</a>
           <a class="cta-btn ghost" href="#stats">Comparer les stats</a>
@@ -57,26 +60,67 @@
       </div>
     </section>
 
+    <section id="visualisation" class="viewer-section">
+      <div class="container">
+        <div class="section-head">
+          <h2>🧭 Visualisation des Navires</h2>
+          <p class="section-subtitle">Observe chaque navire, change d'angle et passe au modèle suivant.</p>
+        </div>
+        <div class="viewer-layout">
+          <div class="viewer-stage" aria-live="polite">
+            <img id="viewer-image" src="images/bismarck.webp" alt="Bismarck - vue principale" loading="lazy" decoding="async">
+            <div class="viewer-hud">
+              <span id="viewer-name">Bismarck</span>
+              <span id="viewer-type">Cuirassé</span>
+            </div>
+          </div>
+          <div class="viewer-controls">
+            <div class="viewer-actions">
+              <button id="viewer-prev" class="viewer-btn" type="button" aria-label="Navire précédent">◀</button>
+              <button id="viewer-next" class="viewer-btn" type="button" aria-label="Navire suivant">▶</button>
+            </div>
+            <div class="viewer-field">
+              <label for="viewer-select">Changer de navire</label>
+              <select id="viewer-select" class="ship-select">
+                <option value="">-- Choisir un navire --</option>
+              </select>
+            </div>
+            <div class="viewer-field">
+              <label for="viewer-tilt">Angle de vue</label>
+              <input id="viewer-tilt" type="range" min="-8" max="8" value="0">
+            </div>
+            <p id="viewer-desc" class="viewer-desc">Cuirassé allemand célèbre pour sa puissance de feu et sa courte carrière durant la Seconde Guerre mondiale.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
   
     <section class="search-section" role="search">
-      <label class="sr-only" for="search-input">Chercher un navire</label>
-      <input type="text" id="search-input" class="search-input" placeholder="Chercher un navire..." aria-label="Chercher un navire">
-      <p id="results-count" class="results-count" aria-live="polite"></p>
-      <div class="filter-buttons">
-        <button class="filter-btn active" data-filter="all">Tous</button>
-        <button class="filter-btn" data-filter="france">France</button>
-        <button class="filter-btn" data-filter="allemagne">Allemagne</button>
-        <button class="filter-btn" data-filter="urss">URSS</button>
-        <button class="filter-btn" data-filter="usa">USA</button>
-        <button class="filter-btn" data-filter="japon">Japon</button>
-        <button class="filter-btn" data-filter="uk">UK</button>
-        <button class="filter-btn" data-filter="pays-bas">Pays-Bas</button>
+      <div class="container">
+        <label class="sr-only" for="search-input">Chercher un navire</label>
+        <input type="text" id="search-input" class="search-input" placeholder="Chercher un navire..." aria-label="Chercher un navire">
+        <p id="results-count" class="results-count" aria-live="polite"></p>
+        <div class="filter-buttons" role="group" aria-label="Filtres par pays">
+          <button class="filter-btn active" data-filter="all" type="button">Tous</button>
+          <button class="filter-btn" data-filter="france" type="button">France</button>
+          <button class="filter-btn" data-filter="allemagne" type="button">Allemagne</button>
+          <button class="filter-btn" data-filter="urss" type="button">URSS</button>
+          <button class="filter-btn" data-filter="usa" type="button">USA</button>
+          <button class="filter-btn" data-filter="japon" type="button">Japon</button>
+          <button class="filter-btn" data-filter="uk" type="button">UK</button>
+          <button class="filter-btn" data-filter="pays-bas" type="button">Pays-Bas</button>
+        </div>
       </div>
     </section>
 
     <section id="navires" class="ships-section">
-      <h2>Navires Célèbres</h2>
-      <ul class="cards-container" aria-label="Liste des navires célèbres">
+      <div class="container">
+        <div class="section-head">
+          <h2>Navires Célèbres</h2>
+          <p class="section-subtitle">Une sélection des navires les plus marquants du jeu.</p>
+        </div>
+        <ul class="cards-container" aria-label="Liste des navires célèbres">
         <li class="ship-card" id="bismarck" data-country="allemagne" data-type="cuirasse" tabindex="0" role="article" aria-label="Fiche du navire Bismarck">
           <img src="images/bismarck.webp" alt="Cuirassé Bismarck - Navire allemand" loading="lazy" decoding="async" aria-label="Image du Bismarck">
           <div class="card-header">
@@ -331,39 +375,42 @@
           </div>
           <button class="gallery-btn">Galerie (3 images)</button>
         </li>
-      </ul>
+        </ul>
+      </div>
     </section>
 
     
     <section id="stats" class="stats-section">
-      <h2>⚡ Comparateur de Navires</h2>
-      <p style="text-align: center; color: #d0d0d0; margin-bottom: 20px;">Sélectionnez jusqu'à 3 navires pour les comparer</p>
-      
-      
-      <div class="comparison-selector">
-        <div class="selector-group">
-          <label for="ship-select-1">Navire 1:</label>
-          <select id="ship-select-1" class="ship-select" data-index="1">
-            <option value="">-- Choisir un navire --</option>
-          </select>
+      <div class="container">
+        <div class="section-head">
+          <h2>⚡ Comparateur de Navires</h2>
+          <p class="section-subtitle">Sélectionnez jusqu'à 3 navires pour les comparer.</p>
         </div>
-        <div class="selector-group">
-          <label for="ship-select-2">Navire 2:</label>
-          <select id="ship-select-2" class="ship-select" data-index="2">
-            <option value="">-- Choisir un navire --</option>
-          </select>
+        <p class="section-lead">Les statistiques sont indicatives et optimisées pour une comparaison rapide.</p>
+        <div class="comparison-selector">
+          <div class="selector-group">
+            <label for="ship-select-1">Navire 1:</label>
+            <select id="ship-select-1" class="ship-select" data-index="1">
+              <option value="">-- Choisir un navire --</option>
+            </select>
+          </div>
+          <div class="selector-group">
+            <label for="ship-select-2">Navire 2:</label>
+            <select id="ship-select-2" class="ship-select" data-index="2">
+              <option value="">-- Choisir un navire --</option>
+            </select>
+          </div>
+          <div class="selector-group">
+            <label for="ship-select-3">Navire 3:</label>
+            <select id="ship-select-3" class="ship-select" data-index="3">
+              <option value="">-- Choisir un navire --</option>
+            </select>
+          </div>
+          <button id="reset-comparison" class="reset-btn" type="button">Réinitialiser</button>
         </div>
-        <div class="selector-group">
-          <label for="ship-select-3">Navire 3:</label>
-          <select id="ship-select-3" class="ship-select" data-index="3">
-            <option value="">-- Choisir un navire --</option>
-          </select>
-        </div>
-        <button id="reset-comparison" class="reset-btn">Réinitialiser</button>
-      </div>
 
       
-      <div class="comparison-table-container" id="comparison-table" style="display: none;">
+      <div class="comparison-table-container" id="comparison-table">
         <table class="comparison-table">
           <thead>
             <tr>
@@ -409,7 +456,7 @@
       </div>
 
       
-      <div class="stats-grid" style="margin-top: 40px;">
+      <div class="stats-grid">
         <div class="stat-card">
           <h3>Puissance</h3>
           <div id="power-chart" class="chart"></div>
@@ -423,12 +470,17 @@
           <div id="speed-chart" class="chart"></div>
         </div>
       </div>
+    </div>
     </section>
 
     
     <section id="blog" class="blog-section">
-      <h2>Wiki World of Warships</h2>
-      <div class="blog-grid">
+      <div class="container">
+        <div class="section-head">
+          <h2>Wiki World of Warships</h2>
+          <p class="section-subtitle">Guides rapides et historiques pour progresser.</p>
+        </div>
+        <div class="blog-grid">
         <article class="blog-card">
           <h3>🛡️ Guide des Types de Navires</h3>
           <p>Découvrez les différents types de navires et leurs rôles dans le jeu. Des cuirassés aux croiseurs, maîtrisez chaque classe.</p>
@@ -449,15 +501,21 @@
           <p>Tout ce qu'il faut savoir pour bien démarrer dans World of Warships. Commandes, interface, premières batailles.</p>
           <a href="#" class="blog-link">Lire plus →</a>
         </article>
+        </div>
       </div>
     </section>
 
     <section id="contact" class="contact-section">
-      <h2>Contact & Informations</h2>
-      <p>Site développé par <strong>Yugos</strong> — fan passionné de World of Warships.</p>
-      <div class="contact-links">
-        <a href="https://github.com/Yugos06" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Yugos">GitHub</a>
-        <a href="#" class="email-link" aria-label="Contacter Yugos">📧 Contact</a>
+      <div class="container">
+        <div class="section-head">
+          <h2>Contact & Informations</h2>
+          <p class="section-subtitle">Une question ou une idée pour améliorer le site ?</p>
+        </div>
+        <p>Site développé par <strong>Yugos</strong> — fan passionné de World of Warships.</p>
+        <div class="contact-links">
+          <a href="https://github.com/Yugos06" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Yugos">GitHub</a>
+          <a href="#" class="email-link" aria-label="Contacter Yugos">📧 Contact</a>
+        </div>
       </div>
     </section>
   </main>

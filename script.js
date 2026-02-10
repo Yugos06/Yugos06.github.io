@@ -2,21 +2,106 @@
 function initializeDarkMode() {
   const darkToggle = document.getElementById('dark-toggle');
   const html = document.documentElement;
-  
-  
+  if (!darkToggle) return;
+
   const savedTheme = localStorage.getItem('theme') || 'dark';
-  if (savedTheme === 'light') {
-    html.setAttribute('data-theme', 'light');
-    darkToggle.textContent = '☀️';
-  }
-  
-  
+  const initialTheme = savedTheme === 'light' ? 'light' : 'dark';
+  html.setAttribute('data-theme', initialTheme);
+  darkToggle.textContent = initialTheme === 'light' ? '☀️' : '🌙';
+  darkToggle.setAttribute('aria-pressed', initialTheme === 'light' ? 'true' : 'false');
+  darkToggle.title = initialTheme === 'light' ? 'Light Mode' : 'Dark Mode';
+
   darkToggle.addEventListener('click', () => {
     const currentTheme = html.getAttribute('data-theme') || 'dark';
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     darkToggle.textContent = newTheme === 'light' ? '☀️' : '🌙';
+    darkToggle.setAttribute('aria-pressed', newTheme === 'light' ? 'true' : 'false');
+    darkToggle.title = newTheme === 'light' ? 'Light Mode' : 'Dark Mode';
+  });
+}
+
+function initializeViewer() {
+  const viewerStage = document.querySelector('.viewer-stage');
+  const viewerImage = document.getElementById('viewer-image');
+  const viewerName = document.getElementById('viewer-name');
+  const viewerType = document.getElementById('viewer-type');
+  const viewerDesc = document.getElementById('viewer-desc');
+  const viewerSelect = document.getElementById('viewer-select');
+  const prevBtn = document.getElementById('viewer-prev');
+  const nextBtn = document.getElementById('viewer-next');
+  const tiltInput = document.getElementById('viewer-tilt');
+
+  if (!viewerStage || !viewerImage || !viewerSelect) return;
+
+  const cards = Array.from(document.querySelectorAll('.ship-card'));
+  const ships = cards
+    .map(card => {
+      const image = card.querySelector('img')?.getAttribute('src') || 'images/wave.webp';
+      const name = card.querySelector('h3')?.textContent?.trim() || 'Navire';
+      const type = card.querySelectorAll('.stat')[1]?.textContent.replace(/Type:/, '').trim() || 'Navire';
+      const desc = card.querySelector('.ship-desc')?.textContent?.trim() || '';
+      return { id: card.id, name, type, desc, image };
+    })
+    .filter(ship => ship.id);
+
+  viewerSelect.innerHTML = '<option value="">-- Choisir un navire --</option>';
+  ships.forEach(ship => {
+    const option = document.createElement('option');
+    option.value = ship.id;
+    option.textContent = ship.name;
+    viewerSelect.appendChild(option);
+  });
+
+  let currentIndex = Math.max(0, ships.findIndex(ship => ship.id === 'bismarck'));
+
+  const renderShip = index => {
+    if (!ships.length) return;
+    currentIndex = (index + ships.length) % ships.length;
+    const ship = ships[currentIndex];
+    viewerImage.src = ship.image;
+    viewerImage.alt = `${ship.name} - vue principale`;
+    if (viewerName) viewerName.textContent = ship.name;
+    if (viewerType) viewerType.textContent = ship.type;
+    if (viewerDesc) viewerDesc.textContent = ship.desc;
+    viewerSelect.value = ship.id;
+  };
+
+  renderShip(currentIndex);
+
+  viewerSelect.addEventListener('change', () => {
+    const selectedIndex = ships.findIndex(ship => ship.id === viewerSelect.value);
+    if (selectedIndex >= 0) {
+      renderShip(selectedIndex);
+    }
+  });
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => renderShip(currentIndex - 1));
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => renderShip(currentIndex + 1));
+  }
+
+  if (tiltInput) {
+    tiltInput.addEventListener('input', () => {
+      viewerStage.style.setProperty('--viewer-tilt', `${tiltInput.value}deg`);
+    });
+  }
+
+  viewerStage.addEventListener('mousemove', event => {
+    const rect = viewerStage.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    viewerStage.style.setProperty('--spot-x', `${x.toFixed(0)}%`);
+    viewerStage.style.setProperty('--spot-y', `${y.toFixed(0)}%`);
+  });
+
+  viewerStage.addEventListener('mouseleave', () => {
+    viewerStage.style.setProperty('--spot-x', '50%');
+    viewerStage.style.setProperty('--spot-y', '50%');
   });
 }
 
@@ -476,6 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
   try {
     galleryState.init();
     initializeDarkMode();
+    initializeViewer();
     initializeSearch();
     initializeShipCards();
     initializeGalleryModal();
