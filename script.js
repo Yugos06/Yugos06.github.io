@@ -97,7 +97,8 @@ function initializeViewer() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1));
 
     const camera = new PerspectiveCamera(35, 1, 0.1, 100);
-    camera.position.set(3.8, 2.1, 5.4);
+    camera.position.set(3.8, 2.6, 5.8);
+    camera.lookAt(0, 0.6, 0);
 
     const ambient = new AmbientLight(0xffffff, 0.8);
     const keyLight = new DirectionalLight(0xffffff, 0.9);
@@ -152,20 +153,20 @@ function initializeViewer() {
           clearTimeout(timeoutId);
           model = gltf.scene;
           model.scale.set(1, 1, 1);
-          // Center model and place it on a virtual "deck"
+          
           const box = new Box3().setFromObject(model);
           const size = new Vector3();
           const center = new Vector3();
           box.getSize(size);
           box.getCenter(center);
           model.position.sub(center);
-          // Lift model so its lowest point sits at y = 0
-          const boxAfter = new Box3().setFromObject(model);
-          model.position.y += -boxAfter.min.y;
-          // Normalize size to fit viewer
+         
           const maxDim = Math.max(size.x, size.y, size.z);
           const scale = maxDim > 0 ? 3.2 / maxDim : 1;
           model.scale.set(scale, scale, scale);
+        
+          const boxAfter = new Box3().setFromObject(model);
+          model.position.y += -boxAfter.min.y + 0.05;
           root.add(model);
           group.visible = false;
           render();
@@ -225,6 +226,7 @@ function initializeViewer() {
 
     const setRotation = (deg) => {
       root.rotation.y = THREE.MathUtils.degToRad(deg);
+      camera.lookAt(0, 0.6, 0);
       render();
     };
 
@@ -397,7 +399,7 @@ function initializeViewer() {
     const onPointerMove = (event) => {
       if (!use3D || !dragActive) return;
       const delta = event.clientX - dragStartX;
-      const next = Math.max(-45, Math.min(45, dragStartRotation + delta * 0.2));
+      const next = Math.max(-45, Math.min(45, dragStartRotation + delta * 0.25));
       if (tiltInput) tiltInput.value = `${Math.round(next)}`;
       applyAngle(next);
     };

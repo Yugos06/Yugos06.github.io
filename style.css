@@ -434,6 +434,8 @@ a:focus {
   --spot-x: 50%;
   --spot-y: 50%;
   --viewer-tilt: 0deg;
+  touch-action: none;
+  cursor: grab;
 }
 
 .viewer-stage::after {
@@ -467,6 +469,10 @@ a:focus {
 
 .viewer-stage.is-3d img {
   display: none;
+}
+
+.viewer-stage.is-3d:active {
+  cursor: grabbing;
 }
 
 .viewer-hud {
