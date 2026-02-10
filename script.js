@@ -76,6 +76,10 @@ function initializeViewer() {
     }
   };
 
+  const hasThreeSupport = () => {
+    return hasWebGLSupport() && !!window.THREE && !!window.THREE.GLTFLoader;
+  };
+
   const createViewer3D = () => {
     if (!viewerCanvas || !window.THREE) return null;
     const { Scene, PerspectiveCamera, WebGLRenderer, Color, AmbientLight, DirectionalLight, Group, Mesh, MeshStandardMaterial, BoxGeometry, CylinderGeometry } = THREE;
@@ -299,10 +303,10 @@ function initializeViewer() {
   }
 
   if (viewer3DToggle && viewer3DStatus) {
-    if (!hasWebGLSupport()) {
+    if (!hasThreeSupport()) {
       viewer3DToggle.disabled = true;
       viewer3DToggle.textContent = '3D indisponible';
-      if (viewer3DStatus) viewer3DStatus.textContent = 'WebGL indisponible sur ce navigateur.';
+      if (viewer3DStatus) viewer3DStatus.textContent = '3D indisponible (WebGL ou Three.js).';
       if (viewerProgress) viewerProgress.style.display = 'none';
       return;
     }
@@ -839,13 +843,22 @@ function displayComparison(ships) {
 }
 
 
+function initializeViewerWhenReady() {
+  const ready = window.__threeReady;
+  if (ready && typeof ready.then === 'function') {
+    ready.then(() => initializeViewer()).catch(() => initializeViewer());
+  } else {
+    initializeViewer();
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   console.log('🎮 Initializing World of Warships Fan Site...');
   
   try {
     galleryState.init();
     initializeDarkMode();
-    initializeViewer();
+    initializeViewerWhenReady();
     initializeSearch();
     initializeShipCards();
     initializeGalleryModal();
