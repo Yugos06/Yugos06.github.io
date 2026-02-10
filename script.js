@@ -167,6 +167,11 @@ function initializeViewer() {
           model.scale.set(scale, scale, scale);
         
           const boxAfter = new Box3().setFromObject(model);
+          const centerAfter = new Vector3();
+          boxAfter.getCenter(centerAfter);
+          // Recentre précisément après mise à l'échelle
+          model.position.x += -centerAfter.x;
+          model.position.z += -centerAfter.z;
           model.position.y += -boxAfter.min.y + 0.05;
           root.add(model);
           group.visible = false;
@@ -252,13 +257,13 @@ function initializeViewer() {
       const maxDim = Math.max(size.x, size.y, size.z);
       const fov = camera.fov * (Math.PI / 180);
       const dist = (maxDim / 2) / Math.tan(fov / 2);
-      const offset = 0.92;
+      const offset = 0.8;
       const z = dist * offset;
-      camera.position.set(center.x, center.y + maxDim * 0.18, center.z + z);
+      camera.position.set(0, center.y + maxDim * 0.18, z);
       camera.near = Math.max(0.1, z / 100);
       camera.far = Math.max(200, z * 5);
       camera.updateProjectionMatrix();
-      camera.lookAt(center.x, center.y + maxDim * 0.12, center.z);
+      camera.lookAt(0, center.y + maxDim * 0.12, 0);
       if (!keepRotation) root.rotation.y = 0;
     };
 
