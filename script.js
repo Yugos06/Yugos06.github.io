@@ -62,6 +62,15 @@ function initializeViewer() {
   let use3D = false;
   let userEnabled3D = false;
 
+  const hasWebGLSupport = () => {
+    try {
+      const canvas = document.createElement('canvas');
+      return !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+    } catch {
+      return false;
+    }
+  };
+
   const createViewer3D = () => {
     if (!viewerCanvas || !window.THREE) return null;
     const { Scene, PerspectiveCamera, WebGLRenderer, Color, AmbientLight, DirectionalLight, Group, Mesh, MeshStandardMaterial, BoxGeometry, CylinderGeometry } = THREE;
@@ -266,6 +275,13 @@ function initializeViewer() {
   }
 
   if (viewer3DToggle && viewer3DStatus) {
+    if (!hasWebGLSupport()) {
+      viewer3DToggle.disabled = true;
+      viewer3DToggle.textContent = '3D indisponible';
+      viewer3DStatus.textContent = 'WebGL indisponible sur ce navigateur.';
+      return;
+    }
+
     viewer3DToggle.addEventListener('click', () => {
       const shipId = ships[currentIndex]?.id;
       if (shipId !== 'bismarck') {

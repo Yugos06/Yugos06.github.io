@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'wows-fan-v4';
+const CACHE_NAME = 'wows-fan-v5';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -14,8 +14,7 @@ const urlsToCache = [
   '/images/richelieu.webp',
   '/images/vladivostok.webp',
   '/images/yamato.webp',
-  '/images/port-amsterdam.jpg',
-  '/bismarck.glb'
+  '/images/port-amsterdam.jpg'
 ];
 
 
